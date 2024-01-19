@@ -1,11 +1,12 @@
 import TestComponent from './components/TestComponent';
+import Header from './components/Header';
 
 import './App.css';
 
 
 function App() {
   return (
-    <TestComponent />
+    <Header />
   );
 }
 

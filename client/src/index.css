@@ -1,0 +1,20 @@
+:root {
+    --port-gore: #232751;
+    --blue-violet: #4A52B0;
+    --rodeo-dust: #CAB0A5;
+    --manatee: #8C94A4;
+  
+    font-family: Quicksand, system-ui, Arial, sans-serif;
+  
+    /* font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; */
+  }
+
+
+html, body {
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+}
