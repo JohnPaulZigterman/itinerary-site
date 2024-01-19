@@ -4,7 +4,9 @@ const typeDefs = `
         username: String!
         email: String!
         password: String!
+        trips: [Trip]
         friends: [User]
+
     }
 
     type Trip {
@@ -18,7 +20,6 @@ const typeDefs = `
         _id: ID!
         location: String!
         when: String!
-        trip: Trip!
     }
 
     type Auth {

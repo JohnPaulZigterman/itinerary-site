@@ -1,31 +1,194 @@
 const { User, Trip, Destination } = require('../models');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        user: async () => {
-            return User.find({});
+        me: async (parent, args, context) => {
+            if (context.user) {
+                const userData = await User.findOne({ _id: context.user._id })
+                .populate('trips')
+                .populate('friends');
+                return userData;
+            }
+              
+            throw AuthenticationError;
         },
-        trip: async () => {
-            return Trip.find({});
+
+        users: async (parent, args, context) => {
+            if (context.user) {
+                const users = await User.find({})
+                    .populate('trips')
+                    .populate('friends');
+                return users;
+            }
+
+            throw AuthenticationError;
         },
-        destination: async () => {
-            return Destination.find({});
-        }
-    },
-    Mutation: {
-        createUser: async (parent, args) => {
-            const user = await User.create(args);
+
+        user: async (parent, { username }, context) => {
+            if (context.user) {
+            const user = await User.findOne({username})
+                .populate('trips')
+                .populate('friends');
             return user;
+            }
+            
+            throw AuthenticationError;
         },
-        createTrip: async (parent, args) => {
-            const trip = await Trip.create(args);
-            return trip;
+        
+        trips: async (parent, { username }, context) => {
+            if (context.user) {
+                const trips = await Trip.find({username})
+                    .populate('destinations');
+                return trips;
+            }
+            
+            throw AuthenticationError;
         },
-        createDestination: async (parent, args) => {
-            const destination = await Destination.create(args);
-            return destination;
+
+        trip: async (parent, { _id }, context) => {
+            if (context.user) {
+                const trip = await Trip.find({_id})
+                    .populate('destinations');
+                return trip;
+            }
+            
+            throw AuthenticationError;
+        },
+
+        destinations: async (parent, { trip }, context) => {
+            if (context.user) {
+                const destinations = await Destination.find({trip});
+                return destinations;
+            }
+            
+            throw AuthenticationError;
+        },
+
+        destination: async (parent, { _id }, context) => {
+            if (context.user) {
+                const destination = await Destination.find({_id});
+                return destination;
+            }
+            
+            throw AuthenticationError;
         },
     },
+    
+    Mutation: {
+        newUser: async (parent, { username, email, password }, context) => {
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user };
+        },
+
+        updateUser: async (parent, { _id, username, email, password }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    _id,
+                    { username, email, password },
+                    { new: true }
+                );
+                return updatedUser;
+            }
+            throw AuthenticationError;
+        },
+
+        deleteUser: async (parent,{ _id }, context) => {
+            if (context.user) {
+                const deletedUser = await User.findByIdAndDelete(_id);
+                return deletedUser;
+            }
+            throw AuthenticationError;
+        },
+
+        newTrip: async (parent, { city, when }, context) => {
+            if (context.user) {
+                const newTrip = await Trip.create({
+                    city,
+                    when,
+                    username: context.user.username,
+                });
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { trips: newTrip._id } },
+                    { new: true }
+                );
+                return newTrip;
+            }
+            throw AuthenticationError;
+        },
+
+        updateTrip: async (parent, { _id, city, when }, context) => {
+            if (context.user) {
+                const updatedTrip = await Trip.findByIdAndUpdate(
+                    _id,
+                    { city, when },
+                    { new: true }
+                );
+                return updatedTrip;
+            }
+            throw AuthenticationError;
+        },
+
+        deleteTrip: async (parent, { _id }, context) => {
+            if (context.user) {
+                const deletedTrip = await Trip.findByIdAndDelete(_id);
+                return deletedTrip;
+            }
+            throw AuthenticationError;
+        },
+
+        newDestination: async (parent, { location, when}, context) => {
+            if (context.user) {
+                const newDestination = await Destination.create({
+                    location,
+                    when,
+                    trip,
+                });
+                await Trip.findByIdAndUpdate(
+                    { _id: trip },
+                    { $push: { destinations: newDestination._id } },
+                    { new: true }
+                );
+                return newDestination;
+            }
+            throw AuthenticationError;
+        },
+
+        updateDestination: async (parent, { _id, location, when }, context) => {
+            if (context.user) {
+                const updatedDestination = await Destination.findByIdAndUpdate(
+                    _id,
+                    { location, when },
+                    { new: true }
+                );
+                return updatedDestination;
+            }
+            throw AuthenticationError;
+        },
+
+        deleteDestination: async (parent, { _id }, context) => {
+            if (context.user) {
+                const deletedDestination = await Destination.findByIdAndDelete(_id);
+                return deletedDestination;
+            }
+            throw AuthenticationError;
+        },
+
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+            if (!user) {
+                throw new AuthenticationError('No user with this email found!');
+            }
+            const correctPw = await user.isCorrectPassword(password);
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect password!');
+            }
+            const token = signToken(user);
+            return { token, user };
+        },
+    }
 };
 
 module.exports = resolvers;
