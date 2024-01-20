@@ -76,17 +76,17 @@ const resolvers = {
     },
     
     Mutation: {
-        newUser: async (parent, { username, email, password }, context) => {
-            const user = await User.create({ username, email, password });
+        newUser: async (parent, { input }, context) => {
+            const user = await User.create( input );
             const token = signToken(user);
             return { token, user };
         },
 
-        updateUser: async (parent, { _id, username, email, password }, context) => {
+        updateUser: async (parent, { _id, input }, context) => {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     _id,
-                    { username, email, password },
+                    { input },
                     { new: true }
                 );
                 return updatedUser;
@@ -102,11 +102,10 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        newTrip: async (parent, { city, when }, context) => {
+        newTrip: async (parent, { input }, context) => {
             if (context.user) {
                 const newTrip = await Trip.create({
-                    city,
-                    when,
+                    input,
                     username: context.user.username,
                 });
                 await User.findByIdAndUpdate(
@@ -119,11 +118,11 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        updateTrip: async (parent, { _id, city, when }, context) => {
+        updateTrip: async (parent, { _id, input }, context) => {
             if (context.user) {
                 const updatedTrip = await Trip.findByIdAndUpdate(
                     _id,
-                    { city, when },
+                    { input },
                     { new: true }
                 );
                 return updatedTrip;
@@ -139,15 +138,14 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        newDestination: async (parent, { location, when}, context) => {
+        newDestination: async (parent, { input }, context) => {
             if (context.user) {
                 const newDestination = await Destination.create({
-                    location,
-                    when,
-                    trip,
+                    input,
+                    trip: context.trip._id,
                 });
                 await Trip.findByIdAndUpdate(
-                    { _id: trip },
+                    { _id: context.trip._id },
                     { $push: { destinations: newDestination._id } },
                     { new: true }
                 );
@@ -156,11 +154,11 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        updateDestination: async (parent, { _id, location, when }, context) => {
+        updateDestination: async (parent, { _id, input }, context) => {
             if (context.user) {
                 const updatedDestination = await Destination.findByIdAndUpdate(
                     _id,
-                    { location, when },
+                    { input },
                     { new: true }
                 );
                 return updatedDestination;
@@ -172,6 +170,30 @@ const resolvers = {
             if (context.user) {
                 const deletedDestination = await Destination.findByIdAndDelete(_id);
                 return deletedDestination;
+            }
+            throw AuthenticationError;
+        },
+
+        addFriend: async (parent, { friendId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { friends: friendId } },
+                    { new: true }
+                ).populate('friends');
+                return updatedUser;
+            }
+            throw AuthenticationError;
+        },
+
+        deleteFriend: async (parent, { friendId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { friends: friendId } },
+                    { new: true }
+                ).populate('friends');
+                return updatedUser;
             }
             throw AuthenticationError;
         },

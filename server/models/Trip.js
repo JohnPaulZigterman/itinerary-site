@@ -2,7 +2,6 @@ const { Schema, Types, model } = require('mongoose');
 
 const moment = require('moment');
 
-const destinationSchema = require('./Destination');
 
 const tripSchema = new Schema(
     {
@@ -20,7 +19,12 @@ const tripSchema = new Schema(
             type: String,
             required: true,
         },
-        destinations: [destinationSchema],
+        destinations: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Destination',
+            },
+        ],
     },
     {
         toJSON: {

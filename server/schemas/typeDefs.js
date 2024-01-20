@@ -3,7 +3,6 @@ const typeDefs = `
         _id: ID!
         username: String!
         email: String!
-        password: String!
         trips: [Trip]
         friends: [User]
 
@@ -37,18 +36,38 @@ const typeDefs = `
         me: User
     }
 
+    input newUserInput {
+        username: String!
+        email: String!
+        password: String!
+    }
+
+    input newTripInput {
+        city: String!
+        when: String!
+    }
+
+    input newDestinationInput {
+        location: String!
+        when: String!
+    }
+
     type Mutation {
-        newUser(username: String!, email: String!, password: String!): Auth
+        newUser(input: newUserInput): Auth
         updateUser(_id: ID!, username: String, email: String, password: String): User
         deleteUser(_id: ID!): User
-        newTrip(city: String!, when: String!, username: String!): Trip
-        updateTrip(_id: ID!, city: String, when: String): Trip
+
+        newTrip(input: newTripInput): Trip
+        updateTrip(_id: ID!, city: String, when:String): Trip
         deleteTrip(_id: ID!): Trip
-        newDestination(location: String!, when: String!, trip: String!): Destination
-        updateDestination(_id: ID!, location: String, when: String): Destination
+
+        newDestination(input: newDestinationInput): Destination
+        updateDestination(_id: ID!, location: String, when:String): Destination
         deleteDestination(_id: ID!): Destination
-        addFriend(friendId: ID!): User
+
+        addFriend(userId: ID!, friendId: ID!): User
         deleteFriend(friendId: ID!): User
+        
         login(email: String!, password: String!): Auth
     }
 `;

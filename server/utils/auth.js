@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // Import the secret from the .env file
-const secret = process.env.SECRET;
+const secret = 'mysecretsshhhhh';
+// process.env.SECRET;
 // If there is no secret, throw an error
 if (!secret) {
     throw new Error('SECRET is not defined in the environment variables');

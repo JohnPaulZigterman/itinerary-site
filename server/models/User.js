@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const tripSchema = require('./Trip');
 
@@ -8,7 +8,18 @@ const userSchema = new Schema(
         username: { type: String, required: true, unique: true, },
         email: { type: String, required: true, unique: true, match: [/.+@.+\..+/, 'Please enter valid email address'], },
         password: { type: String, required: true, },
-        savedTrips: [tripSchema],
+        trips: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Trip',
+            },
+        ],
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
     },
     {
         toJSON: {
@@ -31,7 +42,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 };
 
 userSchema.virtual('tripCount').get(function () {
-    return this.savedTrips.length;
+    return this.trips.length;
 });
 
 const User = model('User', userSchema);
