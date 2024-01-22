@@ -1,12 +1,14 @@
-import TestComponent from './components/TestComponent';
+import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
 
-import './App.css';
-
+import './styles/App.css';
 
 function App() {
   return (
+    <>
     <Header />
+    <Outlet />
+    </>
   );
 }
 

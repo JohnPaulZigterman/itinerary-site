@@ -1,8 +1,8 @@
 :root {
-    --port-gore: #232751;
-    --blue-violet: #4A52B0;
-    --rodeo-dust: #CAB0A5;
-    --manatee: #8C94A4;
+    --dark-blue: #232751;
+    --light-blue: #4A52B0;
+    --cream: #CAB0A5;
+    --gray: #8C94A4;
   
     font-family: Quicksand, system-ui, Arial, sans-serif;
   
@@ -15,6 +15,7 @@
 
 html, body {
     display: flex;
+    flex-direction: column;
     margin: 0px;
     padding: 0px;
 }

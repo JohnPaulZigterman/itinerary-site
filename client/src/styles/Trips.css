@@ -1,0 +1,48 @@
+.all-trips {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 25px 0;
+    justify-content: center;
+}
+
+.trip-card {
+    background-color: var(--light-blue);
+    width: 500px;
+    min-height:500px;
+    border-radius: 10px;
+}
+
+.trip-dates-header {
+    padding: 10px 0;
+    background-color: var(--cream);
+    border-radius: 10px 10px 0 0;
+
+    color: white;
+
+    font-size: 1.5em;
+    font-weight: bolder;
+    text-shadow: 2px 2px 2px var(--dark-blue);
+}
+
+.trip-individual-days {
+   display: flex;
+   flex-direction: column;
+   background-color: white;
+   margin: 20px; 
+   border-radius: 5px;
+   padding: 5px 15px;
+   text-align: left;
+}
+
+.trip-individual-days h2 {
+    text-align: center;
+}
+
+.trip-card img {
+    height: 25px;
+}
+
+/* SIZING: show two cards side by side on a desktop,
+and one card on mobile */
