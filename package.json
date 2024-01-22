@@ -1,5 +1,6 @@
 {
-  "name": "itinerate-app",
+
+  "name": "itinerate",
   "version": "1.0.0",
   "description": "travel itinerary social platform",
   "main": "server/server.js",
