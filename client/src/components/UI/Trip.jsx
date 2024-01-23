@@ -6,50 +6,28 @@ import pin from '../../assets/pin.png';
 export default function Trip() {
     return (
         <div className='trip-card'>
-
+            {/* trip dates fetched from database */}
             <div className='trip-dates-header'>
-                Mon, Jan 15, 2023 
+                **start date
                 <br></br>
                 to 
                 <br></br>
-                Wed, Jan 17, 2023 
+                **end date
             </div>
 
-            <div className='trip-individual-days'>
-                <h2>Monday 1/15</h2>
+            <div className='trip-destinations'>
                 {/* should these locations be links??? links that open to the location on mapquest? */}
                 <p>
                     <img src={pin} className='pin'/>
-                    location
+                    **location property of Destination from this Trip**
                 </p>
                 <p>
                     <img src={pin} className='pin'/>
-                    location
-                </p>
-            </div>
-            
-            <div className='trip-individual-days'>
-                <h2>Tuesday 1/16</h2>
-                <p>
-                    <img src={pin} className='pin'/>
-                    location
+                    **location property of Destination from this Trip**
                 </p>
                 <p>
                     <img src={pin} className='pin'/>
-                    location
-                </p>
-            </div>
-
-            
-            <div className='trip-individual-days'>
-                <h2>Wednesday 1/17</h2>
-                <p>
-                    <img src={pin} className='pin'/>
-                    location
-                </p>
-                <p>
-                    <img src={pin} className='pin'/>
-                    location
+                    **location property of Destination from this Trip**
                 </p>
             </div>
 
