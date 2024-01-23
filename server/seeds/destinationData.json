@@ -1,0 +1,57 @@
+[
+    {
+        "location": "Barcelona McDonald's",
+        "when": "Jan 15, 2025 at 12:45PM",
+        "trip": "Barcelona"
+    },
+    {
+        "location": "Barcelona Starbucks",
+        "when": "Jan 15, 2025 at 2:45PM",
+        "trip": "Barcelona"
+    },
+    {
+        "location": "Barcelona McDonald's",
+        "when": "Jan 15, 2025 at 3:45PM",
+        "trip": "Madrid"
+    },
+    {
+        "location": "Madrid McDonald's",
+        "when": "Jan 16, 2025 at 12:45PM",
+        "trip": "Madrid"
+    },
+    {
+        "location": "Madrid Starbucks",
+        "when": "Jan 16, 2025 at 2:45PM",
+        "trip": "Madrid"
+    },
+    {
+        "location": "Barcelona KFC",
+        "when": "Jan 17, 2025 at 1:30PM",
+        "trip": "Barcelona"
+    },
+    {
+        "location": "Barcelona Pizza Hut",
+        "when": "Jan 17, 2025 at 3:15PM",
+        "trip": "Barcelona"
+    },
+    {
+        "location": "Madrid Burger King",
+        "when": "Jan 18, 2025 at 12:00PM",
+        "trip": "Madrid"
+    },
+    {
+        "location": "Madrid Subway",
+        "when": "Jan 18, 2025 at 2:30PM",
+        "trip": "Madrid"
+    },
+    {
+        "location": "Seville McDonald's",
+        "when": "Jan 19, 2025 at 1:45PM",
+        "trip": "Seville"
+    },
+    {
+        "location": "Seville Starbucks",
+        "when": "Jan 19, 2025 at 3:30PM",
+        "trip": "Seville"
+    }
+]

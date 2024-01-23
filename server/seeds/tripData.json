@@ -1,0 +1,20 @@
+[
+    {
+        "city": "Barcelona",
+        "start": "Jan 15, 2025 at 12:45PM",
+        "end": "Jan 17, 2025 at 12:45PM",
+        "username": "test"
+    },
+    {
+        "city": "Madrid",
+        "start": "Jan 15, 2025 at 12:45PM",
+        "end": "Jan 17, 2025 at 12:45PM",
+        "username": "test"
+    },
+    {
+        "city": "Seville",
+        "start": "Jan 15, 2025 at 12:45PM",
+        "end": "Jan 17, 2025 at 12:45PM",
+        "username": "test"
+    }
+]
