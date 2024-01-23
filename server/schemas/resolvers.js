@@ -76,17 +76,17 @@ const resolvers = {
     },
     
     Mutation: {
-        newUser: async (parent, { input }, context) => {
-            const user = await User.create( input );
+        newUser: async (parent, { username, email, password }) => {
+            const user = await User.create({ username, email, password });
             const token = signToken(user);
             return { token, user };
         },
 
-        updateUser: async (parent, { _id, input }, context) => {
+        updateUser: async (parent, { _id, username, email, password }, context) => {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
                     _id,
-                    { input },
+                    { username, email, password },
                     { new: true }
                 );
                 return updatedUser;
@@ -102,11 +102,9 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        newTrip: async (parent, { input }, context) => {
+        newTrip: async (parent, { city, start, end }, context) => {
             if (context.user) {
-                const newTrip = await Trip.create({
-                    input,
-                    username: context.user.username,
+                const newTrip = await Trip.create({ city, start, end, username: context.user.username,
                 });
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
@@ -118,11 +116,11 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        updateTrip: async (parent, { _id, input }, context) => {
+        updateTrip: async (parent, { _id, city, start, end }, context) => {
             if (context.user) {
                 const updatedTrip = await Trip.findByIdAndUpdate(
                     _id,
-                    { input },
+                     { city, start, end },
                     { new: true }
                 );
                 return updatedTrip;
@@ -138,27 +136,24 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        newDestination: async (parent, { input }, context) => {
+        newDestination: async (parent, { tripId, location, start, end }, context) => {
             if (context.user) {
-                const newDestination = await Destination.create({
-                    input,
-                    trip: context.trip._id,
-                });
+                const newDestination = await Destination.create({ location, start, end });
                 await Trip.findByIdAndUpdate(
-                    { _id: context.trip._id },
+                    tripId,
                     { $push: { destinations: newDestination._id } },
                     { new: true }
                 );
                 return newDestination;
             }
             throw AuthenticationError;
-        },
+        }, 
 
-        updateDestination: async (parent, { _id, input }, context) => {
+        updateDestination: async (parent, { _id, location, start, end }, context) => {
             if (context.user) {
                 const updatedDestination = await Destination.findByIdAndUpdate(
                     _id,
-                    { input },
+                    { location, start, end },
                     { new: true }
                 );
                 return updatedDestination;
