@@ -23,7 +23,7 @@ const destinationSchema = new Schema(
         trip: {
             type: String,
         },
-    },
+    }, 
     {
         toJSON: {
             getters: true,
