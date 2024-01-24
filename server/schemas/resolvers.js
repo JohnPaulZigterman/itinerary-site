@@ -54,7 +54,7 @@ const resolvers = {
             }
             
             throw AuthenticationError;
-        },
+        }, 
 
         destinations: async (parent, { trip }, context) => {
             if (context.user) {
