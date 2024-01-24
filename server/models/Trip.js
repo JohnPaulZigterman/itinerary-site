@@ -1,4 +1,5 @@
 const { Schema, Types, model } = require('mongoose');
+const destinationSchema = require('./Destination');
 
 const moment = require('moment');
 
@@ -21,7 +22,7 @@ const tripSchema = new Schema(
             default: Date.now,
             get: timeStamp => moment(timeStamp).format("MMM DD, YYYY [at] hh:mm a"),
         },
-        username: {
+        user: {
             type: String,
             required: true,
         },
@@ -36,7 +37,6 @@ const tripSchema = new Schema(
         toJSON: {
             getters: true,
         },
-        id: false,
     }
 );
 

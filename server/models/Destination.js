@@ -23,6 +23,7 @@ const destinationSchema = new Schema(
         },
         trip: {
             type: String,
+            required: true
         },
     }, 
     {
