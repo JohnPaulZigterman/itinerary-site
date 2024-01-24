@@ -8,16 +8,20 @@ const destinationSchema = new Schema(
             type: String,
             required: true,
         },
-        when: {
-            type: Date,
+        start: {
+            type: String,
+            required: true,
+            default: Date.now,
+            get: timeStamp => moment(timeStamp).format("MMM DD, YYYY [at] hh:mm a"),
+        },
+        end: {
+            type: String,
             required: true,
             default: Date.now,
             get: timeStamp => moment(timeStamp).format("MMM DD, YYYY [at] hh:mm a"),
         },
         trip: {
-            type: Schema.Types.ObjectId,
-            ref: 'Trip',
-            required: true,
+            type: String,
         },
     },
     {
