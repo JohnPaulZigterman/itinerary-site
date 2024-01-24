@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
+import Login from './pages/Login.jsx';
 import MyTrips from './pages/MyTrips.jsx';
 import PlanTrip from './pages/PlanTrip.jsx';
 import Public from './pages/Public.jsx';
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
       }, {
         path: '/browse',
         element: <Public />
+      }, {
+        path: '/login',
+        element: <Login />
       },
+
     ],
   },
 ]);
