@@ -8,7 +8,14 @@ const destinationSchema = new Schema(
             type: String,
             required: true,
         },
-        when: {
+
+        start: {
+            type: String,
+            required: true,
+            default: Date.now,
+            get: timeStamp => moment(timeStamp).format("MMM DD, YYYY [at] hh:mm a"),
+        },
+        end: {
             type: String,
             required: true,
             default: Date.now,
@@ -17,7 +24,7 @@ const destinationSchema = new Schema(
         trip: {
             type: String,
         },
-    },
+    }, 
     {
         toJSON: {
             getters: true,
