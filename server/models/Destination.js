@@ -8,6 +8,7 @@ const destinationSchema = new Schema(
             type: String,
             required: true,
         },
+
         start: {
             type: String,
             required: true,

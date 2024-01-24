@@ -7,8 +7,10 @@ const tripData = require('./tripData.json');
 const destinationData = require('./destinationData.json');
 
 db.once('open', async () => {
-  await cleanDB('itinerate');
-
+  await cleanDB('User', 'users');
+  await cleanDB('Trip', 'trips');
+  await cleanDB('Destination', 'destinations');
+  
   await User.insertMany(userData);
   await Trip.insertMany(tripData);
   await Destination.insertMany(destinationData);

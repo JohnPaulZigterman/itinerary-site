@@ -24,6 +24,7 @@ usage demo
 
 ## Resources
 - links to any resources used
+- https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
 ## Devs
 - [JohnPaulZigterman](https://github.com/JohnPaulZigterman)
