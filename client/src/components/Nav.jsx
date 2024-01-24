@@ -7,6 +7,7 @@ export default function Nav() {
       <NavLink to='/'>Home</NavLink>
       <NavLink to='plan'>Plan</NavLink>
       <NavLink to='browse'>Browse</NavLink>
+      <NavLink to='login'>Log In</NavLink>
     </nav>
   );
 }
