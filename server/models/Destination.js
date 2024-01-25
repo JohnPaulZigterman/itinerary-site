@@ -7,14 +7,10 @@ const destinationSchema = new Schema(
             required: true,
         },
 
-        start: {
-            type: String,
-            required: true,
+        when: {
+            type: String
         },
-        end: {
-            type: String,
-            required: true,
-        },
+
         trip: {
             type: String,
             required: true
