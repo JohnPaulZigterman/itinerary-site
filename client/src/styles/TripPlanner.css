@@ -1,7 +1,86 @@
 .trip-planner {
+    /* background-image: url('../assets/bulletin-board.svg'); 
+    /* background-size: cover; /* Cover the entire area of the div */
+    /* background-repeat: no-repeat; /* Prevent image from repeating */
+    /* background-position: top; /* Center the image in the div */
+
     background-color: white;
-    width: 350px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 95vw;
+    max-width: 700px;
     margin: 10px;
     padding: 10px;
     border-radius: 10px;
 }
+
+.trip-planner h2 { 
+    margin: 7.5px 0 0 0;
+    padding: 5px 20px;
+    width: auto;
+    border-radius: 10px;
+
+    color: black;
+
+    font-size: 1.5em;
+
+    font-family: Quicksand, system-ui, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px var(--gray);
+    letter-spacing: 5px;
+}
+
+.trip-planner-form {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, .8);
+    align-items: center;
+    text-align: left;
+}
+
+.trip-planner-form p, .trip-planner-form input, .trip-planner-form button {
+    width: 75vw; 
+    max-width: 500px; 
+}
+
+.trip-planner-form p {
+    margin-bottom: 2px;
+    margin-left: -10px;
+}
+
+.trip-planner-form input, .trip-planner-form button {
+    padding: 10px; /* For better user experience */
+    border: 1px solid #ccc; /* Styling the border (optional) */
+    margin-bottom: 5px;
+}
+
+.trip-planner-form input {
+    background-color: var(--gray);
+    color: black;
+    border-radius: 5px; /* Rounded corners (optional) */
+}
+
+.trip-planner-form input::placeholder, input[type='date'] {
+    color: black; 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.trip-planner-form button {
+    margin: 30px 0 0 0;
+    color: white;
+    background-color: var(--orange);
+    border-radius: 20px;
+    font-family: Quicksand, system-ui, Arial, sans-serif;
+    font-size: 1em;
+    text-shadow: 1px 1px 1px var(--dark-blue);
+    letter-spacing: 5px;
+
+}
+
