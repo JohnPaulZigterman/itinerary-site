@@ -12,9 +12,9 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const ADD_USER = gql`
-  mutation newUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
+export const NEW_USER = gql`
+  mutation newUser($input: newUserInput!) {
+    newUser(input: $input) {
       token
       user {
         _id
@@ -26,11 +26,13 @@ export const ADD_USER = gql`
 `;
 
 export const NEW_TRIP = gql`
-    mutation newTrip($city: String!, $start: String!, $end: String!) {
-        newTrip(input: { city: $city, start: $start, end :$end }) {
+    mutation newTrip($input: NewTripInput!) {
+        newTrip(input: $input) {
+            _id
             city
             start
             end
+            username
         }
     }
 `;

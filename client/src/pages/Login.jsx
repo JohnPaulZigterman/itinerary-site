@@ -1,20 +1,22 @@
 // log in and signup
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { ADD_USER, LOGIN_USER } from '../utils/mutations';
+import { NEW_USER, LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 export default function Login() {
 
     const [loginFormData, setLoginFormData] = useState({ email: '', password: '' });
-    const [loginValidated] = useState(false); // is login validated ?? not integrated
-    const [showLoginAlert, setLoginAlert] = useState(false); // for error alerts
-
     const [signupFormData, setSignupFormData] = useState({ username: '', email: '', password: '' });
-    const [signupValidated] = useState(false); // is signup validated ?? not integrated
-    const [showSignupAlert, setSignupAlert] = useState(false); // for error alerts
 
-    const [addUser, { error: signupError }] = useMutation(ADD_USER);
+    const [showLoginAlert, setLoginAlert] = useState(false); 
+    const [showSignupAlert, setSignupAlert] = useState(false); 
+
+
+    const [loginValidated] = useState(false); // is login validated ?? not integrated
+    const [signupValidated] = useState(false); // is signup validated ?? not integrated
+y
+    const [newUser, { error: signupError }] = useMutation(NEW_USER);
     const [loginUser, { error: loginError }] = useMutation(LOGIN_USER);
 
     // error handling alerts
@@ -62,10 +64,16 @@ export default function Login() {
     const handleSignup = async (event) => {
         event.preventDefault();
         try {
-            const { data } = await addUser({
-                variables: { ...signupFormData }
+            const { data } = await newUser({
+                variables: { 
+                    input: { 
+                        username: signupFormData.username, 
+                        email: signupFormData.email, 
+                        password: signupFormData.password 
+                    } 
+                }
             });
-            Auth.login(data.addUser.token);
+            Auth.login(data.newUser.token);
         } catch (err) {
             console.error(err);
             setSignupAlert(true);
