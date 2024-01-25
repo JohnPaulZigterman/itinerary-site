@@ -1,23 +1,25 @@
 const { Schema, Types, model } = require('mongoose');
 
-const moment = require('moment');
-
 const destinationSchema = new Schema(
     {
         location: {
             type: String,
             required: true,
         },
-        when: {
+
+        start: {
             type: String,
             required: true,
-            default: Date.now,
-            get: timeStamp => moment(timeStamp).format("MMM DD, YYYY [at] hh:mm a"),
+        },
+        end: {
+            type: String,
+            required: true,
         },
         trip: {
             type: String,
+            required: true
         },
-    },
+    }, 
     {
         toJSON: {
             getters: true,

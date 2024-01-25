@@ -3,5 +3,45 @@
         "username": "test",
         "email": "test@test.com",
         "password": "testtest1!"
-    }
+    },
+    {
+        "username": "testuser1",
+        "email": "testuser1@example.com",
+        "password": "testpassword123"
+      },
+      {
+        "username": "testuser2",
+        "email": "testuser2@example.com",
+        "password": "testsecurePass"
+      },
+      {
+        "username": "testuser3",
+        "email": "testuser3@example.com",
+        "password": "testletmein456"
+      },
+      {
+        "username": "testuser4",
+        "email": "testuser4@example.com",
+        "password": "testpass987"
+      },
+      {
+        "username": "testuser5",
+        "email": "testuser5@example.com",
+        "password": "testsecureWord"
+      },
+      {
+        "username": "testuser6",
+        "email": "testuser6@example.com",
+        "password": "test1234pass"
+      },
+      {
+        "username": "testuser7",
+        "email": "testuser7@example.com",
+        "password": "testnewPass"
+      },
+      {
+        "username": "testuser8",
+        "email": "testuser8@example.com",
+        "password": "testuserPass"
+      }
 ]

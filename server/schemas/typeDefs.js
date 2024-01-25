@@ -11,14 +11,16 @@ const typeDefs = `
     type Trip {
         _id: ID!
         city: String!
-        when: String!
+        start: String!
+        end: String!
         destinations: [Destination]
     }
 
     type Destination {
         _id: ID!
         location: String!
-        when: String!
+        start: String!
+        end: String!
     }
 
     type Auth {
@@ -36,33 +38,17 @@ const typeDefs = `
         me: User
     }
 
-    input newUserInput {
-        username: String!
-        email: String!
-        password: String!
-    }
-
-    input newTripInput {
-        city: String!
-        when: String!
-    }
-
-    input newDestinationInput {
-        location: String!
-        when: String!
-    }
-
     type Mutation {
-        newUser(input: newUserInput): Auth
+        newUser(username: String!, email: String!, password: String!): Auth
         updateUser(_id: ID!, username: String, email: String, password: String): User
         deleteUser(_id: ID!): User
 
-        newTrip(input: newTripInput): Trip
-        updateTrip(_id: ID!, city: String, when:String): Trip
+        newTrip(city: String!, start: String!, end: String!): Trip
+        updateTrip(_id: ID!, city: String, start: String, end: String): Trip
         deleteTrip(_id: ID!): Trip
 
-        newDestination(input: newDestinationInput): Destination
-        updateDestination(_id: ID!, location: String, when:String): Destination
+        newDestination(tripId: ID!, location: String!, start: String!, end: String!): Destination
+        updateDestination(_id: ID!, location: String, start: String, end: String): Destination
         deleteDestination(_id: ID!): Destination
 
         addFriend(userId: ID!, friendId: ID!): User
