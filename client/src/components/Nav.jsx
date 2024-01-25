@@ -2,25 +2,23 @@ import { NavLink } from 'react-router-dom';
 import Auth from '../utils/auth';
 
 export default function Nav() {
-  // If the user is logged in, return the logout button, otherwise return the login button
-  const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
-
   return (
     <nav>
       <NavLink to='/'>Home</NavLink>
       <NavLink to='plan'>Plan</NavLink>
       <NavLink to='browse'>Browse</NavLink>
-      {/* If the user is login show the logout button */}
-      {Auth.loggedIn() ? (
-        <NavLink
-        onClick={logout}>Logout
-        </NavLink>
-      ) : (
-        <NavLink to='login'>Log In</NavLink>
-      )}
+      {/* ternary operator for login/signup vs logout */}
+      {Auth.loggedIn() 
+        ? // if logged in...
+        (
+        // if the user is logged in, show "Logout" and make the link perform the logout action
+        <button className='logout-button' onClick={Auth.logout}>Logout</button>
+        ) 
+        : // if logged out
+        (
+        // if the user is not logged in, show "Login/Signup" and link to the login page
+        <NavLink to='login'>Login/Signup</NavLink>
+        )}
     </nav>
   );
 }

@@ -4,3 +4,9 @@
     text-align: center;
     background-color: var(--dark-blue)
 }
+
+.outlet-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
