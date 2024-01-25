@@ -6,8 +6,9 @@ const resolvers = {
         me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
-                .populate('trips')
-                .populate('friends');
+                // Add .populate() method here to populate trips and then destinations
+                    .populate({ path: 'trips', populate: 'destinations' })
+                    .populate('friends');
                 return userData;
             }
               
@@ -17,7 +18,7 @@ const resolvers = {
         users: async (parent, args, context) => {
             if (context.user) {
                 const users = await User.find({})
-                    .populate('trips')
+                    .populate({ path: 'trips', populate: 'destinations' })
                     .populate('friends');
                 return users;
             }
@@ -28,7 +29,7 @@ const resolvers = {
         user: async (parent, { username }, context) => {
             if (context.user) {
             const user = await User.findOne({username})
-                .populate('trips')
+                .populate({ path: 'trips', populate: 'destinations' })
                 .populate('friends');
             return user;
             }
@@ -138,9 +139,9 @@ const resolvers = {
 
         newDestination: async (parent, { tripId, location, start, end }, context) => {
             if (context.user) {
-                const newDestination = await Destination.create({ location, start, end });
+                const newDestination = await Destination.create({ location, start, end, trip: tripId });
                 await Trip.findByIdAndUpdate(
-                    tripId,
+                    { _id: tripId },
                     { $push: { destinations: newDestination._id } },
                     { new: true }
                 );
