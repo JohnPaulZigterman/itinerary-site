@@ -13,7 +13,7 @@
 
     width: 95vw;
     max-width: 700px;
-    margin: 10px;
+    margin: 25px;
     padding: 10px;
     border-radius: 10px;
 }
@@ -63,7 +63,7 @@
 
 .trip-planner-form input {
     background-color: var(--gray);
-    color: black;
+    color: rgba(0, 0, 0, .5); 
     border-radius: 5px; /* Rounded corners (optional) */
 }
 
