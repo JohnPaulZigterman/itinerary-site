@@ -74,23 +74,21 @@ export const DELETE_TRIP = gql`
 `;
 
 export const NEW_DESTINATION = gql`
-  mutation newDestination($tripId: ID!, $location: String!, $start: String!, $end: String!) {
-    newDestination(tripId: $tripId, location: $location, start: $start, end: $end) {
+  mutation newDestination($tripId: ID!, $location: String!, $when: String!) {
+    newDestination(tripId: $tripId, location: $location, when: $when) {
       _id
       location
-      start
-      end
+      when
     }
   }
 `;
 
 export const UPDATE_DESTINATION = gql`
-  mutation updateDestination($_id: ID!, $location: String, $start: String, $end: String) {
-    updateDestination(_id: $_id, location: $location, start: $start, end: $end) {
+  mutation updateDestination($_id: ID!, $location: String, $when: String) {
+    updateDestination(_id: $_id, location: $location, when: $when) {
       _id
       location
-      start
-      end
+      when
     }
   }
 `;
