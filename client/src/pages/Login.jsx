@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
 
+import '../styles/LoginSignup.css';
+
 export default function Login() {
     // call useNavigate hook to redirect user to home page after successful signup
     const navigate = useNavigate();
@@ -109,8 +111,8 @@ export default function Login() {
     return (
         <div className='login-signup-container'>
 
-            <div className='login-container'>
-                <h2>Login</h2>
+            <div className='login-container space-below'>
+                <h2>LOGIN</h2>
                 <form id="login-form" onSubmit={handleLogin}>
                     <input type="email" name="email" placeholder="email@email.com" value={loginFormData.email} onChange={handleInputChange}/>
                     <input type="password" name="password" placeholder="password" value={loginFormData.password} onChange={handleInputChange}/>
@@ -120,7 +122,7 @@ export default function Login() {
             </div>
 
             <div className='signup-container'>
-                <h2>New Users</h2>
+                <h2>NEW USERS</h2>
                 <form id="signup-form" onSubmit={handleSignup}>
                     <input type="text" name="username" placeholder="username" value={signupFormData.username} onChange={handleInputChange}/>
                     <input type="email" name="email" placeholder="email" value={signupFormData.email} onChange={handleInputChange}/>
