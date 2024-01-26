@@ -7,6 +7,7 @@ import Trip from '../components/UI/Trip';
 import { QUERY_TRIP } from '../utils/queries'; 
 
 export default function SingleTrip() {
+
     let { tripId } = useParams()
     console.log(tripId)
 
@@ -22,21 +23,16 @@ export default function SingleTrip() {
         return <div>Loading...</div>;
     }
 
-    return (
-        <div>
-            <div className='single-trip'>
-
-                {tripData && (
-                    <Trip 
-                        city={tripData.city}
-                        startDate={tripData.start}
-                        endDate={tripData.end}
-                        // destinations={tripData.destinations.map(d => d.location)}
-                    />
-                )}
-            </div>
+return (
+        <div className='single-trip'>
+            <Trip 
+                tripId={tripId}
+                city={tripData.city}
+                startDate={tripData.start}
+                endDate={tripData.end}
+                existingDestinations={tripData.destinations}
+            />
         </div>
-
     );
     
 }

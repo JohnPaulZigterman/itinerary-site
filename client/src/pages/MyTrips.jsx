@@ -2,35 +2,50 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 import Trip from '../components/UI/Trip';
+import { QUERY_USER , QUERY_TRIPS } from '../utils/queries';
+import Auth from '../utils/auth';
 
-
-// fetch trip dat?
 
 export default function MyTrips() {
-    // const [trips, setTrips] = useState([]);
+    // get username
+    const getProfile = Auth.getProfile();
+    let username;
+    if (getProfile && getProfile.data) {
+        username = getProfile.data.username;
+        console.log('Username:', username);
+        console.log('Profile:', getProfile)
+    } else {
+        console.error('User profile data is not available');
+    }
 
-    // useEffect(() => {
-    //     // Fetch the trips data for the logged-in user and set it to the state
-    //     // This is just a placeholder, you'll need to replace it with your actual data fetching logic
-    //     fetchTripsForLoggedInUser().then(data => {
-    //         setTrips(data);
-    //     });
-    // }, []);
+    // fetch trip data through User query
+    const { loading, data } = useQuery(QUERY_USER, {
+        variables: { username },
+    });
+    console.log(data) // the query is not working bc the data has an empty trips array...
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    
+    const user = data?.user;
+    const trips = user.trips || [];
 
     return (
         <div>
             <div className='all-trips'>
-                {/* adjust <Trip /> so that it maps over all Trips? belonging to logged in user, see below*/}
-                <Trip />
-                <Trip />
-                <Trip />
-                <Trip />
-
-                {/* {trips.map((trip) => (
-                    <Trip key={trip._id} trip={trip} />
-                ))} */}
+                {trips.map((trip) => (
+                    <Trip
+                        key={trip._id}
+                        tripId={trip._id}
+                        city={trip.city}
+                        startDate={trip.start}
+                        endDate={trip.end}
+                        existingDestinations={trip.destinations}
+                    />
+                ))}
             </div>
         </div>
 

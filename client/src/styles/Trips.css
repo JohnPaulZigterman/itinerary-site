@@ -1,4 +1,4 @@
-.all-trips {
+.all-trips, .single-trip {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -35,12 +35,67 @@
    text-align: left;
 }
 
-.trip-individual-days h2 {
-    text-align: center;
-}
-
 .trip-card img {
     height: 25px;
+}
+
+.destination-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.destination-form input {
+    background-color: var(--gray);
+    color: black;
+
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    width: 80%;
+    padding: 10px; 
+    margin-bottom: 5px;
+}
+
+.destination-form input::placeholder, input[type='date'] {
+    color: rgba(0, 0, 0, .5); 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.destination-form button {
+    margin: 0;
+    color: white;
+    background-color: var(--orange);
+    border-radius: 20px;
+    font-family: Quicksand, system-ui, Arial, sans-serif;
+    font-size: 1em;
+    text-shadow: 1px 1px 1px var(--dark-blue);
+    letter-spacing: 1px;
+}
+
+.destination-list h2 { 
+    margin: 7.5px 0 0 0;
+    padding: 5px 20px;
+    width: auto;
+    border-radius: 10px;
+
+    color: black;
+
+    text-align: center;
+    font-size: 1.5em;
+    font-family: Quicksand, system-ui, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px var(--gray);
+    letter-spacing: 3px;
+}
+
+.single-destination {
+    background-color: var(--light-blue);
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
 }
 
 /* SIZING: show two cards side by side on a desktop,
