@@ -7,6 +7,7 @@ import MyTrips from './pages/MyTrips.jsx';
 import PlanTrip from './pages/PlanTrip.jsx';
 import Public from './pages/Public.jsx';
 import SingleTrip from './pages/SingleTrip.jsx';
+import SingleUser from './pages/SingleUser.jsx';
 
 import './styles/index.css'
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       }, {
         path: '/trip/:tripId', 
         element: <SingleTrip />
+      },
+      {
+        path: '/user/:username', 
+        element: <SingleUser />
       },
     ],
   },
