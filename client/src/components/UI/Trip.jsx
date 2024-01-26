@@ -1,14 +1,25 @@
 // single trip card - used for home page and also for browsing friends' trips
 
+// TODO list
+// DONE import an icon library - need thumbs up/down, trashcan, pen...
+// DONE change Destination divs to have a delete and edit icon and 
+    // configure CRUD functionality
+// delete icon will use DELETE_TRIP mutation, pen icon will use UPDATE_DESTINATION mutation
+// DONE add a delete button to trip - 
+    // configure CRUD and also add a confirmation alert
+
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { NEW_DESTINATION } from '../../utils/mutations';
+import { NEW_DESTINATION, UPDATE_TRIP, DELETE_TRIP, UPDATE_DESTINATION, DELETE_DESTINATION } from '../../utils/mutations';
 import { QUERY_ME, QUERY_TRIPS } from '../../utils/queries';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Auth from '../../utils/auth';
 
 import '../../styles/Trips.css';
 import pin from '../../assets/pin.png';
+
+// icon library: https://react-icons.github.io/react-icons/icons/fa6/
+import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen } from 'react-icons/fa';
 
 export default function Trip({ city, startDate, endDate, tripId, existingDestinations }) {
     const [destinations, setDestinations] = useState(existingDestinations);
@@ -17,7 +28,7 @@ export default function Trip({ city, startDate, endDate, tripId, existingDestina
 
     console.log('18 existingDestinations:', existingDestinations);
     
-    // get username
+    // get username -- is this being used anywhere? do i 
     const getProfile = Auth.getProfile();
     let username;
     if (getProfile && getProfile.data) {
@@ -77,7 +88,7 @@ export default function Trip({ city, startDate, endDate, tripId, existingDestina
                     <p>Enter the destination to add to your itinerary:</p>
                     <input type='text' id='location' placeholder='location' required value={location} onChange={(event) => setLocation(event.target.value)} />
                     <input type='text' id='when' placeholder='add time or date for this destination' value={when} onChange={(event) => setWhen(event.target.value)} />
-                    <button type='submit' id='scheduleButton'>ADD DESTINATION</button>
+                    <button type='submit'><FaPlus /></button>
                 </form>
 
                 {/* should these locations be links??? links that open to the location on mapquest? */}
@@ -86,13 +97,20 @@ export default function Trip({ city, startDate, endDate, tripId, existingDestina
                     {destinations.map((destination, index) => (
                         <div key={index} className='single-destination'>
                             <p>{destination.location} @ {destination.when}</p>
+                            <div className='icons'>
+                                <button><FaPen /></button> 
+                                <button><FaTrash/></button>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            <button>delete</button>
-            <button>archive</button>
+            <button className='edit-trip'><FaPen /> Edit Trip</button>
+            <button className='delete-trip'><FaTrash /> Delete Trip</button>
+            <h3><FaTrash /> <FaPlus /> <FaRegThumbsUp /> <FaRegThumbsDown /> <FaPen /></h3>
+
+
         </div>
     );
 }
