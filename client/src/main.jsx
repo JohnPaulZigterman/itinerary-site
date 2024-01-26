@@ -6,7 +6,7 @@ import Login from './pages/Login.jsx';
 import MyTrips from './pages/MyTrips.jsx';
 import PlanTrip from './pages/PlanTrip.jsx';
 import Public from './pages/Public.jsx';
-import SignUp from './pages/SignUp.jsx';
+import SingleTrip from './pages/SingleTrip.jsx';
 
 import './styles/index.css'
 
@@ -28,12 +28,10 @@ const router = createBrowserRouter([
       }, {
         path: '/login',
         element: <Login />
+      }, {
+        path: '/trip/:tripId', 
+        element: <SingleTrip />
       },
-      {
-        path: '/signup',
-        element: <SignUp />
-      },
-
     ],
   },
 ]);

@@ -5,7 +5,6 @@ const typeDefs = `
         email: String!
         trips: [Trip]
         friends: [User]
-
     }
 
     type Trip {
@@ -13,6 +12,7 @@ const typeDefs = `
         city: String!
         start: String!
         end: String!
+        user: User
         destinations: [Destination]
     }
 
@@ -21,6 +21,7 @@ const typeDefs = `
         location: String!
         start: String!
         end: String!
+        trip: Trip
     }
 
     type Auth {

@@ -49,7 +49,7 @@ const resolvers = {
 
         trip: async (parent, { _id }, context) => {
             if (context.user) {
-                const trip = await Trip.find({_id})
+                const trip = await Trip.findById(_id)
                     .populate('destinations');
                 return trip;
             }
