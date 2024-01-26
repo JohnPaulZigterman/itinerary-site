@@ -14,8 +14,7 @@ export const QUERY_ME = gql`
                 destinations {
                     _id
                     location
-                    start
-                    end
+                    when
                 }
             }
             friends {
@@ -40,8 +39,7 @@ export const QUERY_USERS = gql`
                 destinations {
                     _id
                     location
-                    start
-                    end
+                    when
                 }
             }
             friends {
@@ -66,8 +64,7 @@ export const QUERY_USER = gql`
                 destinations {
                     _id
                     location
-                    start
-                    end
+                    when
                 }
             }
             friends {
@@ -88,8 +85,7 @@ export const QUERY_TRIPS = gql`
             destinations {
                 _id
                 location
-                start
-                end
+                when
             }
         }
     }
@@ -105,8 +101,7 @@ export const QUERY_TRIP = gql`
             destinations {
                 _id
                 location
-                start
-                end
+                when
             }
         }
     }
@@ -117,8 +112,7 @@ export const QUERY_DESTINATIONS = gql`
         destinations(trip: $trip) {
             _id
             location
-            start
-            end
+            when
         }
     }
 `;
@@ -128,8 +122,7 @@ export const QUERY_DESTINATION = gql`
         destination(_id: $id) {
             _id
             location
-            start
-            end
+            when
         }
     }
 `;

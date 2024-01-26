@@ -137,9 +137,9 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        newDestination: async (parent, { tripId, location, start, end }, context) => {
+        newDestination: async (parent, { tripId, location, when }, context) => {
             if (context.user) {
-                const newDestination = await Destination.create({ location, start, end, trip: tripId });
+                const newDestination = await Destination.create({ location, when, trip: tripId });
                 await Trip.findByIdAndUpdate(
                     { _id: tripId },
                     { $push: { destinations: newDestination._id } },
@@ -150,7 +150,7 @@ const resolvers = {
             throw AuthenticationError;
         }, 
 
-        updateDestination: async (parent, { _id, location, start, end }, context) => {
+        updateDestination: async (parent, { _id, location, when }, context) => {
             if (context.user) {
                 const updatedDestination = await Destination.findByIdAndUpdate(
                     _id,

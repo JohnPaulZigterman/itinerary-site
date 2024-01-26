@@ -19,9 +19,7 @@ const typeDefs = `
     type Destination {
         _id: ID!
         location: String!
-        start: String!
-        end: String!
-        trip: Trip
+        when: String
     }
 
     type Auth {
@@ -48,8 +46,8 @@ const typeDefs = `
         updateTrip(_id: ID!, city: String, start: String, end: String): Trip
         deleteTrip(_id: ID!): Trip
 
-        newDestination(tripId: ID!, location: String!, start: String!, end: String!): Destination
-        updateDestination(_id: ID!, location: String, start: String, end: String): Destination
+        newDestination(tripId: ID!, location: String!, when: String): Destination
+        updateDestination(_id: ID!, location: String, when: String): Destination
         deleteDestination(_id: ID!): Destination
 
         addFriend(userId: ID!, friendId: ID!): User
