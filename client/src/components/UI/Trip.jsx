@@ -14,13 +14,33 @@ import Auth from '../../utils/auth';
 import '../../styles/Trips.css';
 import pin from '../../assets/pin.png';
 // icon library: https://react-icons.github.io/react-icons/icons/fa6/
-import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen } from 'react-icons/fa';
 
-export default function Trip({ trip, showButtons }) {
+import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaRegFloppyDisk } from 'react-icons/fa6';
+
+export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
+
     const [destinations, setDestinations] = useState(trip.destinations);
     const [location, setLocation] = useState('');
     const [when, setWhen] = useState('');
     console.log('debug1:', trip.destinations)
+
+    // state variables for editing Trip & Destination
+    const [tripEditMode, setTripEditMode] = useState(false);
+        // update these states in edit mode, also need to be used in the HTML
+        const [editableCity, setEditableCity] = useState(trip.city);
+        const [editableStart, setEditableStart] = useState(trip.start);
+        const [editableEnd, setEditableEnd] = useState(trip.end);
+
+    const [destinationEditModes, setDestinationEditModes] = useState({});
+        // destinationEditModes
+        // keys: destination IDs, values: boolean flags
+        console.log('destinationEditModes:', destinationEditModes)
+
+        const [editableDestinations, setEditableDestinations] = useState({}); // update state to new values during edit, also need to be used in the HTML
+            // editableDestinations
+            // keys: destination IDs, values: objects containing location and when
+            console.log('editableDestinations:', editableDestinations)
+
     
     // get username
     const getProfile = Auth.getProfile();
@@ -33,17 +53,21 @@ export default function Trip({ trip, showButtons }) {
 
     const [deleteTrip] = useMutation(DELETE_TRIP, {
         // this refetch queries the trips again, so the deleted trip is removed from view
+
+        // is there a better way to do this?!?!?!
+
         refetchQueries: [
             { query: QUERY_USER, variables: { username } },
         ],
     });
-
+    
     const [newDestination, { data, loading }] = useMutation(NEW_DESTINATION);
     const [deleteDestination] = useMutation(DELETE_DESTINATION);
 
     // // Code to write: UPDATE_TRIP and UPDATE_DESTINATION mutations
-    // const [editTrip, { data, loading }] = useMutation(UPDATE_TRIP);
-    // const [editDestination, { data, loading }] = useMutation(UPDATE_DESTINATION);
+    // const [editTrip] = useMutation(UPDATE_TRIP);
+    // const [editDestination] = useMutation(UPDATE_DESTINATION);
+
 
     // loading message
     if (loading) {
@@ -85,15 +109,24 @@ export default function Trip({ trip, showButtons }) {
     }
 
     const handleEditTripButton = async (event) => {
-        console.log("debug6: edit trip button pressed");
+
+        console.log('debug6: edit trip button pressed');
+        setTripEditMode(true);
+    }
+
+    const handleSaveTripButton = async () => {
+        setTripEditMode(false)
+        // logic to use UPDATE_TRIP mutation
     }
     
-    // INCOMPLETE: doesn't delete associated destinations
+    // INCOMPLETE: doesn't delete associated destinations, 
+    // also need to refresh parent component to reflect deleted trip
     const handleDeleteTripButton = async (event) => {
-        console.log("deleting trip with trip id:", trip._id);
+        console.log('deleting trip with trip id:', trip._id);
 
         // confirmation message
-        if (!window.confirm("Are you sure you want to delete this trip?")) {
+        if (!window.confirm('Are you sure you want to delete this trip?')) {
+
             return;
         }
 
@@ -115,13 +148,26 @@ export default function Trip({ trip, showButtons }) {
     }
 
     
-    const handleEditDestinationButton = async (event) => {
-        console.log("edit destination button pressed");
+    const handleEditDestinationButton = async (destinationId) => {
+        console.log('edit destination button pressed');
+
+        const currentDestinationEditMode = destinationEditModes[destinationId]; // checks the boolean flag for edit mode status particular destination
+        console.log(destinationId, ':', currentDestinationEditMode) 
+
+        setDestinationEditModes({ ...destinationEditModes, [destinationId]: true }); // sets edit mode of destination to true
     }
-    
+
+    // INCOMPLETE
+    const handleSaveDestinationButton = async (destinationId) => {
+        // turn off edit mode
+        setDestinationEditModes({ ...destinationEditModes, [destinationId]: false });
+        // logic to use UPDATE_DESTINATION mutation
+        
+    }
+
 
     const handleDeleteDestinationButton = async (destinationId) => {
-        console.log("deleting destination with id:", destinationId);
+        console.log('deleting destination with id:', destinationId);
 
         try {
             const { data } = await deleteDestination({
@@ -210,15 +256,48 @@ export default function Trip({ trip, showButtons }) {
 
     return (
         <div className='trip-card'>
-            <div className='trip-dates-header'>
-                <Link to={`/trip/${trip._id}`}>Itinerary for {trip.city} </Link>
-                    <br></br>
-                {trip.start} to {trip.end}
-            </div>
+            <div className='trip-card-header'>
+                <h2>Itinerary</h2>
+                <div className='trip-details'>
+                    <div className='left detail-values'>
+                        {tripEditMode ? (
+                            <>
+                                {/* values will have to be changed!!!! */}
+                                <p><strong>Destination: </strong><input type="text" value={trip.city} /></p>
+                                <p>
+                                    <strong>Duration: </strong>
+                                    <input type="date" value={trip.start} />
+                                    <input type="date" value={trip.end} />
+                                </p>
+                            </>
+                        ) : (
+                            <>
+                                <p><strong>Destination: </strong>{trip.city}</p>
+                                <p><strong>Duration: </strong>{trip.start} to {trip.end}</p>
+                            </>
+                        )}
+
+                    </div>
+                    
+                    {/* this div holds icon that links to the single trip view, hide on SingleTrips page */}
+                    {!hideMagnifyingGlass && (
+                        <div className='right edit-delete'>
+                            <Link to={`/trip/${trip._id}`}><FaMagnifyingGlass /></Link>
+                        </div>
+                    )}
+                    
+                    {/* clicking this button should send the new info to the db to update the trip and also turn off editing mode */}
+                    {tripEditMode && (
+                        <div className='icons'>
+                            <button onClick={handleSaveTripButton}><FaRegFloppyDisk /></button>
+                        </div>
+                    )}
+                </div>
+            </div>  
 
             <div className='trip-destinations'>
                 <form className='destination-form' onSubmit={handleFormSubmit}>
-                    <p>Enter the destination to add to your itinerary:</p>
+                    <p>Enter a destination to add to your itinerary:</p>
                     <input 
                         type='text' 
                         id='location' 
@@ -226,8 +305,8 @@ export default function Trip({ trip, showButtons }) {
                         required value={location} 
                         onChange={(event) => setLocation(event.target.value)} />
                     <input 
+                        // which type to use?? text/time/date - each has pros/cons
                         type='text' 
-                        // text/time/date - each has pros/cons
                         id='when' 
                         placeholder='note the time or date for this destination' 
                         value={when} 
@@ -240,20 +319,40 @@ export default function Trip({ trip, showButtons }) {
                     <h2>Trip Destinations</h2>
                     {destinations.map((destination) => (
                         <div key={destination._id} className='single-destination'>
-
-                            <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
-
-                            <div className='icons'>
-                                <button onClick={handleEditDestinationButton}><FaPen /></button> 
-                                <button onClick={() => handleDeleteDestinationButton(destination._id)}><FaTrash/></button>
-                            </div>
+                            {/* values will have to be changed!!!! */}
+                            {destinationEditModes[destination._id] 
+                            ? (
+                                <>
+                                    <input type='text' value={editableDestinations[destination._id]?.location} />
+                                    <input type='text' value={editableDestinations[destination._id]?.when} />
+                                    
+                                    <div className='icons'>
+                                        <button onClick={() => handleSaveDestinationButton(destination._id)}><FaRegFloppyDisk /></button>
+                                    </div>
+                                </>
+                            ) 
+                            : (
+                                <>
+                                    <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
+                                    <div className='icons'>
+                                        <button onClick={() => handleEditDestinationButton(destination._id)}><FaPen /></button>
+                                        <button onClick={() => handleDeleteDestinationButton(destination._id)}><FaTrash/></button>
+                                    </div>
+                                </>
+                            )}
+                            
 
                         </div>
                     ))}
+
                 </div>
             </div>
             
             {/* showButtons=true should be passed to this component to render these buttons. */}
+            {/* on the single page view... 
+            there also has to be some kind of logic to check if the post belongs to the visitor
+            otherwise, the buttons should NOT be shown. */}
+
             {showButtons && (
                 <div>
                     <button className='edit-trip' onClick={handleEditTripButton}><FaPen /> Edit Trip</button>
