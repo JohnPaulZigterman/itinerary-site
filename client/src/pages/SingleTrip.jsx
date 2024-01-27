@@ -30,6 +30,7 @@ return (
                 key={tripId}
                 trip={tripData}
                 showButtons={true}
+                hideMagnifyingGlass={true}
             />
         </div>
     );

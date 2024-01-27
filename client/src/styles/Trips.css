@@ -17,16 +17,58 @@
     cursor: pointer;
 }
 
-.trip-dates-header {
+.trip-card-header {
     padding: 10px 0;
     background-color: var(--cream);
     border-radius: 10px 10px 0 0;
-
-    color: white;
+    /* color: white;
 
     font-size: 1.5em;
     font-weight: bolder;
+    text-shadow: 2px 2px 2px var(--dark-blue); */
+}
+
+.trip-card-header h2 {
+    margin: 0;
+
+    color: white;
+
+    font-size: 2em;
+    font-weight: bold;
     text-shadow: 2px 2px 2px var(--dark-blue);
+    letter-spacing: 3px
+}
+
+.trip-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+
+    margin: 0 20px;
+    text-align: left;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.left p {
+    margin: 5px 0;
+}
+
+.left input, .single-destination input {
+    background-color: white;
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.left button {
+    align-self: center;
 }
 
 .trip-destinations {
@@ -89,7 +131,6 @@
     font-size: 1.5em;
     font-family: Quicksand, system-ui, Arial, sans-serif;
     font-weight: bold;
-    font-size: 2em;
     text-shadow: 1px 1px 1px var(--gray);
     letter-spacing: 3px;
 }
