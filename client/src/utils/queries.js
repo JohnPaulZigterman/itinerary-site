@@ -91,6 +91,22 @@ export const QUERY_TRIPS = gql`
     }
 `;
 
+export const QUERY_TRIPS_BY_CITY = gql`
+    query tripsByCity($city: String!) {
+        tripsByCity(city: $city) {
+            _id
+            city
+            start
+            end
+            destinations {
+                _id
+                location
+                when
+            }
+        }
+    }
+`;
+
 export const QUERY_TRIP = gql`
     query trip($id: ID!) {
         trip(_id: $id) {

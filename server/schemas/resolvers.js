@@ -47,6 +47,16 @@ const resolvers = {
             throw AuthenticationError;
         },
 
+        tripsByCity: async (parent, { city }, context) => {
+            if (context.user) {
+                const trips = await Trip.find({city})
+                    .populate('destinations');
+                return trips;
+            }
+
+            throw AuthenticationError;
+        },
+
         trip: async (parent, { _id }, context) => {
             if (context.user) {
                 const trip = await Trip.findById(_id)
