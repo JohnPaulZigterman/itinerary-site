@@ -94,7 +94,8 @@ const resolvers = {
         },
 
         updateUser: async (parent, { _id, username, email, password }, context) => {
-            if (context.user) {
+            // only allow logged in users to update their own profile
+            if (context.user && context.user._id === _id) {
                 const updatedUser = await User.findByIdAndUpdate(
                     _id,
                     { username, email, password },
@@ -105,8 +106,18 @@ const resolvers = {
             throw AuthenticationError;
         },
 
-        deleteUser: async (parent,{ _id }, context) => {
-            if (context.user) {
+        deleteUser: async (parent, { _id }, context) => {
+            // only allow logged in users to delete their own profile
+            if (context.user && context.user._id === _id) {
+                // delete all of the user's trips
+                const user = await User.findById(_id).populate('trips');
+                for (let trip of user.trips) {
+                    // delete all of the trip's destinations
+                    const populatedTrip = await Trip.findById(trip._id).populate('destinations');
+                    await Destination.deleteMany({ trip: populatedTrip._id });
+                    await Trip.findByIdAndDelete(populatedTrip._id);
+                }
+        
                 const deletedUser = await User.findByIdAndDelete(_id);
                 return deletedUser;
             }
@@ -141,7 +152,16 @@ const resolvers = {
 
         deleteTrip: async (parent, { _id }, context) => {
             if (context.user) {
+                await Destination.deleteMany({ trip: _id });
+
                 const deletedTrip = await Trip.findByIdAndDelete(_id);
+                // remove the trip from the user's trips
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { trips: _id } },
+                    { new: true }
+                );
+
                 return deletedTrip;
             }
             throw AuthenticationError;
@@ -164,7 +184,7 @@ const resolvers = {
             if (context.user) {
                 const updatedDestination = await Destination.findByIdAndUpdate(
                     _id,
-                    { location, start, end },
+                    { location, when },
                     { new: true }
                 );
                 return updatedDestination;
@@ -175,6 +195,13 @@ const resolvers = {
         deleteDestination: async (parent, { _id }, context) => {
             if (context.user) {
                 const deletedDestination = await Destination.findByIdAndDelete(_id);
+                // remove the destination from the trip's destinations
+                await Trip.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { destinations: _id } },
+                    { new: true }
+                );
+                
                 return deletedDestination;
             }
             throw AuthenticationError;
