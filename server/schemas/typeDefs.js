@@ -31,6 +31,7 @@ const typeDefs = `
         users: [User]
         user(username: String!): User
         trips(username: String!): [Trip]
+        tripsByCity(city: String!): [Trip]
         trip(_id: ID!): Trip
         destinations(trip: String!): [Destination]
         destination(_id: ID!): Destination
