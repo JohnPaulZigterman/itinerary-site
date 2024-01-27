@@ -14,9 +14,11 @@ import Auth from '../../utils/auth';
 import '../../styles/Trips.css';
 import pin from '../../assets/pin.png';
 // icon library: https://react-icons.github.io/react-icons/icons/fa6/
+
 import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaRegFloppyDisk } from 'react-icons/fa6';
 
 export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
+
     const [destinations, setDestinations] = useState(trip.destinations);
     const [location, setLocation] = useState('');
     const [when, setWhen] = useState('');
@@ -51,7 +53,9 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
 
     const [deleteTrip] = useMutation(DELETE_TRIP, {
         // this refetch queries the trips again, so the deleted trip is removed from view
+
         // is there a better way to do this?!?!?!
+
         refetchQueries: [
             { query: QUERY_USER, variables: { username } },
         ],
@@ -63,6 +67,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
     // // Code to write: UPDATE_TRIP and UPDATE_DESTINATION mutations
     // const [editTrip] = useMutation(UPDATE_TRIP);
     // const [editDestination] = useMutation(UPDATE_DESTINATION);
+
 
     // loading message
     if (loading) {
@@ -104,6 +109,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
     }
 
     const handleEditTripButton = async (event) => {
+
         console.log('debug6: edit trip button pressed');
         setTripEditMode(true);
     }
@@ -120,6 +126,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
 
         // confirmation message
         if (!window.confirm('Are you sure you want to delete this trip?')) {
+
             return;
         }
 
@@ -139,6 +146,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
         }
 
     }
+
     
     const handleEditDestinationButton = async (destinationId) => {
         console.log('edit destination button pressed');
@@ -309,7 +317,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                 {/* EXTRA TODO: use locations to query map API and open the mapquest or google maps page */}
                 <div className='destination-list'>
                     <h2>Trip Destinations</h2>
-
                     {destinations.map((destination) => (
                         <div key={destination._id} className='single-destination'>
                             {/* values will have to be changed!!!! */}
@@ -334,6 +341,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                                 </>
                             )}
                             
+
                         </div>
                     ))}
 
@@ -344,6 +352,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
             {/* on the single page view... 
             there also has to be some kind of logic to check if the post belongs to the visitor
             otherwise, the buttons should NOT be shown. */}
+
             {showButtons && (
                 <div>
                     <button className='edit-trip' onClick={handleEditTripButton}><FaPen /> Edit Trip</button>

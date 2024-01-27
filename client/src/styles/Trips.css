@@ -17,7 +17,9 @@
     cursor: pointer;
 }
 
+
 .trip-card-header {
+
     padding: 10px 0;
     background-color: var(--cream);
     border-radius: 10px 10px 0 0;
