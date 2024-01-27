@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { QUERY_USER  } from '../utils/queries';
 import { NEW_TRIP } from '../utils/mutations';
 import { Link, useNavigate} from 'react-router-dom';
 import Auth from '../utils/auth';
@@ -8,14 +9,6 @@ import '../styles/TripPlanner.css';
 
 export default function PlanTrip() {
     const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        city: '',
-        start: '',
-        end: ''
-    });
-
-    const [newTrip, { data, loading, error }] = useMutation(NEW_TRIP);
 
     // get username
     const getProfile = Auth.getProfile();
@@ -28,6 +21,19 @@ export default function PlanTrip() {
         console.error('User profile data is not available');
     }
 
+    const [formData, setFormData] = useState({
+        city: '',
+        start: '',
+        end: ''
+    });
+
+    const [newTrip, { data, loading, error }] = useMutation(NEW_TRIP, {
+        // without this refetch, the new trip will not show up on the other pages without reloading the page
+        refetchQueries: [
+            { query: QUERY_USER, variables: { username } }
+        ],
+    });
+
     // handles form field changes
     const handleInputChange = (event) => {
         setFormData({
@@ -36,7 +42,7 @@ export default function PlanTrip() {
         });
     }
 
-    // handles form submission - need to pass username
+    // handles form submission
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         console.log(formData)
@@ -50,9 +56,13 @@ export default function PlanTrip() {
                 }
             });
             
+            // using if else for more robust error handling
             if (data.newTrip) {
                 console.log('Trip added successfully.', data.newTrip);
-                navigate(`/trip/${data.newTrip._id}`); 
+                // navigate to home after new trip is added, where it will be the last trip on the page.
+                // to edit/delete the trip tile, user must navigate to its single page (click title)
+                // but user can add a destination directly from home page
+                navigate('/'); 
             } else {
                 console.error('Failed to add trip.');
             }
@@ -76,7 +86,6 @@ export default function PlanTrip() {
                 <input type='text' id='city' placeholder='Where are you going?' required onChange={handleInputChange} />
                 
                 <button type='submit' id='scheduleButton'>CREATE NEW TRIP</button>
-                {/* when the form is submitted, i want to navigate the user to /trip/:tripId using the tripId that was just created */}
             </form>
 
             {/* Display loading or error messages if necessary */}

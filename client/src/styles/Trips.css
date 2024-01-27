@@ -100,8 +100,7 @@
     align-items: center;
     justify-content: space-between;
 
-
-    background-color: var(--light-blue);
+    background-color: var(--gray-transparent);
     padding: 5px;
     margin: 10px 0;
     border-radius: 5px;
@@ -129,7 +128,7 @@
 }
 
 .edit-trip {
-    margin: 0;
+    margin: 0 0 20px 0;
     margin-right: 10px;
     padding: 5px 10px;
     color: white;
@@ -142,7 +141,7 @@
 }
 
 .delete-trip {
-    margin: 0;
+    margin: 0 0 20px 0;
     padding: 5px 10px;
     color: white;
     background-color: var(--orange);
