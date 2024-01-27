@@ -24,7 +24,6 @@ export default function MyTrips() {
     const { loading, data } = useQuery(QUERY_USER, {
         variables: { username },
     });
-    console.log(data) // the query is not working bc the data has an empty trips array...
 
     if (loading) {
         return <div>Loading...</div>;
@@ -39,16 +38,10 @@ export default function MyTrips() {
                 {trips.map((trip) => (
                     <Trip
                         key={trip._id}
-                        tripId={trip._id}
-                        city={trip.city}
-                        startDate={trip.start}
-                        endDate={trip.end}
-                        existingDestinations={trip.destinations}
+                        trip={trip}
                     />
                 ))}
             </div>
         </div>
-
     );
-    
 }
