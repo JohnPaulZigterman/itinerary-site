@@ -1,0 +1,60 @@
+.user-card {
+    background-color: var(--light-blue);
+    width: 250px;
+    border-radius: 10px;
+    border: solid black 2px;
+    margin: 5px;
+}
+
+.trip-card {
+    background-color: bisque;
+    width: 40%;
+    
+}
+
+.user-card button {
+    cursor: pointer;
+}
+
+.user-card-header {
+
+    padding: 10px 0;
+    background-color: var(--cream);
+    border-radius: 10px 10px 0 0;
+    /* color: white;
+
+    font-size: 1.5em;
+    font-weight: bolder;
+    text-shadow: 2px 2px 2px var(--dark-blue); */
+}
+
+.user-card-header h2 {
+    margin: 0;
+
+    color: white;
+
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px var(--dark-blue);
+    letter-spacing: 3px
+}
+
+.user-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+
+    margin: 0 20px;
+    text-align: left;
+}
+
+.all-trips, .single-trip {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 25px 0;
+    justify-content: center;
+}
