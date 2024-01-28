@@ -10,6 +10,16 @@ import Auth from '../utils/auth';
 
 export default function MyTrips() {
     // get username
+    const loggedIn = Auth.loggedIn();
+
+    if (!loggedIn) {
+        return (
+            <div>
+                <h1>Please Log In To See Your Trips!</h1>
+            </div>
+        )
+    }
+
     const getProfile = Auth.getProfile();
     let username;
     if (getProfile && getProfile.data) {
