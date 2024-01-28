@@ -84,7 +84,7 @@ export default function PlanTrip() {
                 <input type='date' id='end' required onChange={handleInputChange} />
 
                 <p>Enter the primary location of your trip:</p>
-                <input className='address-search' type='text' id='city' placeholder='Where are you going?' required onChange={handleInputChange} />
+                <input className='address-search' list='auto-complete' type='text' id='city' placeholder='Where are you going?' required onChange={handleInputChange} />
                 
                 <button type='submit' id='scheduleButton'>CREATE NEW TRIP</button>
             </form>
