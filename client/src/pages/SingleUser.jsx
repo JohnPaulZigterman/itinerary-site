@@ -28,6 +28,7 @@ export default function SingleUser() {
                     <User 
                         username={userData.username}
                         trips={userData.trips}
+                        _id={userData._id}
                     />
                 )}
             </div>

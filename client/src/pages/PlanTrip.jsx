@@ -4,6 +4,7 @@ import { QUERY_USER  } from '../utils/queries';
 import { NEW_TRIP } from '../utils/mutations';
 import { Link, useNavigate} from 'react-router-dom';
 import Auth from '../utils/auth';
+import autoComplete from '../utils/autocomplete';
 
 import '../styles/TripPlanner.css';
 
@@ -83,7 +84,7 @@ export default function PlanTrip() {
                 <input type='date' id='end' required onChange={handleInputChange} />
 
                 <p>Enter the primary location of your trip:</p>
-                <input type='text' id='city' placeholder='Where are you going?' required onChange={handleInputChange} />
+                <input className='address-search' list='auto-complete' type='text' id='city' placeholder='Where are you going?' required onChange={handleInputChange} />
                 
                 <button type='submit' id='scheduleButton'>CREATE NEW TRIP</button>
             </form>
