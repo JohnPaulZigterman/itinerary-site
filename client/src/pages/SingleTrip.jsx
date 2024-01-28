@@ -31,7 +31,6 @@ return (
                 trip={tripData}
                 showButtons={true}
                 hideMagnifyingGlass={true}
-
             />
         </div>
     );

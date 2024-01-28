@@ -146,7 +146,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
         }
 
     }
-
     
     const handleEditDestinationButton = async (destinationId) => {
         console.log('edit destination button pressed');
@@ -317,6 +316,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                 {/* EXTRA TODO: use locations to query map API and open the mapquest or google maps page */}
                 <div className='destination-list'>
                     <h2>Trip Destinations</h2>
+
                     {destinations.map((destination) => (
                         <div key={destination._id} className='single-destination'>
                             {/* values will have to be changed!!!! */}
@@ -341,7 +341,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                                 </>
                             )}
                             
-
                         </div>
                     ))}
 
@@ -352,7 +351,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
             {/* on the single page view... 
             there also has to be some kind of logic to check if the post belongs to the visitor
             otherwise, the buttons should NOT be shown. */}
-
             {showButtons && (
                 <div>
                     <button className='edit-trip' onClick={handleEditTripButton}><FaPen /> Edit Trip</button>
