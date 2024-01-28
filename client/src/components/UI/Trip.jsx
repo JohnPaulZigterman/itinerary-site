@@ -14,9 +14,11 @@ import Auth from '../../utils/auth';
 import '../../styles/Trips.css';
 import pin from '../../assets/pin.png';
 // icon library: https://react-icons.github.io/react-icons/icons/fa6/
+
 import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaRegFloppyDisk } from 'react-icons/fa6';
 
 export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
+
     const [destinations, setDestinations] = useState(trip.destinations);
     const [location, setLocation] = useState('');
     const [when, setWhen] = useState('');
@@ -51,7 +53,9 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
 
     const [deleteTrip] = useMutation(DELETE_TRIP, {
         // this refetch queries the trips again, so the deleted trip is removed from view
+
         // is there a better way to do this?!?!?!
+
         refetchQueries: [
             { query: QUERY_USER, variables: { username } },
         ],
@@ -63,6 +67,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
     // // Code to write: UPDATE_TRIP and UPDATE_DESTINATION mutations
     // const [editTrip] = useMutation(UPDATE_TRIP);
     // const [editDestination] = useMutation(UPDATE_DESTINATION);
+
 
     // loading message
     if (loading) {
@@ -104,6 +109,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
     }
 
     const handleEditTripButton = async (event) => {
+
         console.log('debug6: edit trip button pressed');
         setTripEditMode(true);
     }
@@ -120,6 +126,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
 
         // confirmation message
         if (!window.confirm('Are you sure you want to delete this trip?')) {
+
             return;
         }
 
