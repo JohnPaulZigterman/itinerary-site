@@ -64,7 +64,6 @@
     width: 100%;
 }
 
-/* styling repeated in "user.css" */
 .user-thumbnail {
     background-color: var(--light-blue);
     width: 250px;
@@ -76,6 +75,10 @@
 
 .user-thumbnail-header h2 {
     margin: 0;
+    padding: 10px 0;
+    background-color: var(--cream);
+    border-radius: 10px 10px 0 0;
+
     color: white;
     font-size: 2em;
     font-weight: bold;
