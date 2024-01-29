@@ -84,6 +84,14 @@ const resolvers = {
             
             throw AuthenticationError;
         },
+
+        isFriendWith: async (parent, { userId, friendId }, context) => {
+            const user = await User.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            return user.isFriendWith(friendId);
+        }
     },
     
     Mutation: {

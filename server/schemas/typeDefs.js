@@ -36,6 +36,7 @@ const typeDefs = `
         destinations(trip: String!): [Destination]
         destination(_id: ID!): Destination
         me: User
+        isFriendWith(userId: ID!, friendId: ID!): Boolean
     }
 
     type Mutation {
