@@ -41,6 +41,10 @@ userSchema.methods.isCorrectPassword = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
+userSchema.methods.isFriendWith = function(friendId) {
+    return this.friends.some(id => id.equals(friendId));
+};
+
 userSchema.virtual('tripCount').get(function () {
     return this.trips.length;
 });
