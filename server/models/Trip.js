@@ -16,7 +16,7 @@ const tripSchema = new Schema(
             required: true,
         },
         user: {
-            type: Schema.Types.ObjectId, 
+            type: String, 
             ref: 'User'
         },
         destinations: [
