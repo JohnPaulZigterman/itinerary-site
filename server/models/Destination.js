@@ -12,7 +12,7 @@ const destinationSchema = new Schema(
         },
 
         trip: {
-            type: Schema.Types.ObjectId, 
+            type: String, 
             ref: 'Trip'
         },
     }, 
