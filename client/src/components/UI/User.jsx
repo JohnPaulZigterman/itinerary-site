@@ -5,6 +5,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { ADD_FRIEND, DELETE_FRIEND } from '../../utils/mutations';
 import { QUERY_IS_FRIEND_WITH } from '../../utils/queries';
 import Auth from '../../utils/auth';
+import '../../styles/User.css'
 
 export default function User({ username, trips, _id }) {
     const getProfile = Auth.getProfile();
@@ -14,6 +15,7 @@ export default function User({ username, trips, _id }) {
     } else {
         console.error('User profile data is not available');
     }
+
     // used useQuery to get the isFriendWith data refetch to update the data
     const { loading, data, refetch } = useQuery(QUERY_IS_FRIEND_WITH, {
         variables: { userId: browserId, friendId: _id },
@@ -25,6 +27,7 @@ export default function User({ username, trips, _id }) {
     const [deleteFriend] = useMutation(DELETE_FRIEND, {
         onCompleted: () => refetch(),
     });
+
 
     const handleAddFriendButton = async (event) => {
         try {
@@ -43,10 +46,15 @@ export default function User({ username, trips, _id }) {
             await deleteFriend({
                 variables: { userId: browserId, friendId: _id },
             });
+
+            if (data && data.addFriend) {
+                alert(`${data.addFriend.username} added as your friend!`)
+            }
         } catch (err) {
             console.log(err);
         }
     };
+
 
     return (
         <div className='user-card'>
@@ -63,9 +71,9 @@ export default function User({ username, trips, _id }) {
                     <button className='friend-button' onClick={handleAddFriendButton}>Add Friend</button>
                 )}
             </div>
-            <div className='all-trips'>
+            <div className='all-users-trips'>
                 {trips.map((trip) => (
-                    <div className='trip-card'>
+                    <div className='trips-list'>
                         <Link key={trip._id} to={`/trip/${trip._id}`}>
                             <p>{trip.city}</p>
                         </Link>

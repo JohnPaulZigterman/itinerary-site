@@ -1,47 +1,42 @@
 // single trip card - used for home page, single page, and public page
-
-// TODO list
-    // configure edit trip CRUD functionality with UPDATE_TRIP mutation
-    // configure edit destination CRUD functionality with UPDATE_DESTINATION mutation
-
 import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { NEW_DESTINATION, UPDATE_TRIP, DELETE_TRIP, UPDATE_DESTINATION, DELETE_DESTINATION } from '../../utils/mutations';
 import { QUERY_ME, QUERY_USER, QUERY_TRIP } from '../../utils/queries';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import Auth from '../../utils/auth';
 
 import '../../styles/Trips.css';
 import pin from '../../assets/pin.png';
 // icon library: https://react-icons.github.io/react-icons/icons/fa6/
-
-import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaRegFloppyDisk } from 'react-icons/fa6';
+import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaFloppyDisk } from 'react-icons/fa6';
 
 export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
-
+    // ---------- State Variables ----------------------------------------------------------------
+    // state variables for adding Destination
     const [destinations, setDestinations] = useState(trip.destinations);
     const [location, setLocation] = useState('');
     const [when, setWhen] = useState('');
-    console.log('debug1:', trip.destinations)
 
-    // state variables for editing Trip & Destination
+    // state variables for editing Trip
     const [tripEditMode, setTripEditMode] = useState(false);
         // update these states in edit mode, also need to be used in the HTML
         const [editableCity, setEditableCity] = useState(trip.city);
         const [editableStart, setEditableStart] = useState(trip.start);
         const [editableEnd, setEditableEnd] = useState(trip.end);
 
+    // state variables for editing Destinations
+    // becca-comment: COMMENTS EXPLAINING BOTH STATE VARIABLES IN DEPTH
     const [destinationEditModes, setDestinationEditModes] = useState({});
         // destinationEditModes
         // keys: destination IDs, values: boolean flags
-        console.log('destinationEditModes:', destinationEditModes)
 
-        const [editableDestinations, setEditableDestinations] = useState({}); // update state to new values during edit, also need to be used in the HTML
-            // editableDestinations
-            // keys: destination IDs, values: objects containing location and when
-            console.log('editableDestinations:', editableDestinations)
+    const [editableDestinations, setEditableDestinations] = useState({}); // update state to new values during edit, also need to be used in the HTML
+        // editableDestinations
+        // keys: destination IDs, values: objects containing location and when
+    // -------------------------------------------------------------------------------------------
 
-    
     // get username
     const getProfile = Auth.getProfile();
     let username;
@@ -51,11 +46,10 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
         console.error('User profile data is not available');
     }
 
+    // ---------- Mutations ----------------------------------------------------------------------
     const [deleteTrip] = useMutation(DELETE_TRIP, {
         // this refetch queries the trips again, so the deleted trip is removed from view
-
         // is there a better way to do this?!?!?!
-
         refetchQueries: [
             { query: QUERY_USER, variables: { username } },
         ],
@@ -64,17 +58,16 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
     const [newDestination, { data, loading }] = useMutation(NEW_DESTINATION);
     const [deleteDestination] = useMutation(DELETE_DESTINATION);
 
-    // // Code to write: UPDATE_TRIP and UPDATE_DESTINATION mutations
-    // const [editTrip] = useMutation(UPDATE_TRIP);
-    // const [editDestination] = useMutation(UPDATE_DESTINATION);
-
+    const [editTrip] = useMutation(UPDATE_TRIP);
+    const [editDestination] = useMutation(UPDATE_DESTINATION);
 
     // loading message
     if (loading) {
         return <div>Loading...</div>;
     }
+    // -------------------------------------------------------------------------------------------
 
-    // add destination form     
+    // ---------- add destination form -----------------------------------------------------------    
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         console.log('debug2:', location, when)
@@ -87,16 +80,10 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                     tripId: trip._id
                 }
             });
-            
-            console.log('debug3:', data.newDestination)
 
             // using if else for more robust error handling
             if (data && data.newDestination) {
-
                 setDestinations(prevDestinations => [...prevDestinations, data.newDestination]);
-                console.log('debug4:', data.newDestination);             
-                console.log('debug5:', destinations);
-    
                 setLocation('');
                 setWhen('');
                 
@@ -107,16 +94,35 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
             console.error('Error:', error);
         }
     }
+    // -------------------------------------------------------------------------------------------
+    
 
+    // ---------- edit/delete trip functionality  ------------------------------------------------
     const handleEditTripButton = async (event) => {
-
-        console.log('debug6: edit trip button pressed');
         setTripEditMode(true);
     }
 
     const handleSaveTripButton = async () => {
-        setTripEditMode(false)
-        // logic to use UPDATE_TRIP mutation
+        try {
+            const { data } = await editTrip({
+                variables: {
+                    _id: trip._id,
+                    city: editableCity,
+                    start: editableStart,
+                    end: editableEnd,
+                },
+            });
+
+            if (data) {
+                console.log('Trip updated successfully.');
+            } else {
+                console.error('Failed to update trip.');
+            }
+        } catch (error) {
+            console.error('Update trip error:', error);
+        }
+
+        setTripEditMode(false);
     }
     
     // INCOMPLETE: doesn't delete associated destinations, 
@@ -126,7 +132,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
 
         // confirmation message
         if (!window.confirm('Are you sure you want to delete this trip?')) {
-
             return;
         }
 
@@ -144,27 +149,73 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
         } catch (error) {
             console.error('Delete trip error:', error);
         }
-
     }
-    
+    // -------------------------------------------------------------------------------------------
+
+    // ---------- edit destinations functionality  -----------------------------------------------
+    // updates editable values of a specific destination
+    // becca-comment: COMMENT FOLLOWING FUNCTION IN DEPTH, LINE BY LINE. 
+    const setEditableDestinationValue = (destinationId, field, value) => {
+        setEditableDestinations(prevEditableDestinations => ({
+            ...prevEditableDestinations,
+            [destinationId]: {
+                ...prevEditableDestinations[destinationId],
+                [field]: value,
+            },
+        }));
+    };
+
+    // edit destination button clicked: turn on edit mode and initialize editableDestinations state 
     const handleEditDestinationButton = async (destinationId) => {
         console.log('edit destination button pressed');
 
-        const currentDestinationEditMode = destinationEditModes[destinationId]; // checks the boolean flag for edit mode status particular destination
-        console.log(destinationId, ':', currentDestinationEditMode) 
+        const destinationToEdit = destinations.find(d => d._id === destinationId);
+        setEditableDestinations({
+            ...editableDestinations,
+            [destinationId]: { location: destinationToEdit.location, when: destinationToEdit.when }
+        });
 
-        setDestinationEditModes({ ...destinationEditModes, [destinationId]: true }); // sets edit mode of destination to true
+        setDestinationEditModes({ ...destinationEditModes, [destinationId]: true }); 
+        console.log(destinationId)
+        console.log(destinationEditModes)
     }
 
-    // INCOMPLETE
+
+    // save button clicked: update destination in local state and then use mutation to update in db 
+    // then exit edit mode 
     const handleSaveDestinationButton = async (destinationId) => {
-        // turn off edit mode
-        setDestinationEditModes({ ...destinationEditModes, [destinationId]: false });
-        // logic to use UPDATE_DESTINATION mutation
-        
-    }
+        const updatedDestination = editableDestinations[destinationId];
+        if (updatedDestination) {
+            try {
+                const { data } = await editDestination({
+                    variables: {
+                        _id: destinationId,
+                        location: updatedDestination.location,
+                        when: updatedDestination.when
+                    }
+                });
+                
+                // using if else for more robust error handling
+                if (data) {
+                    setDestinations(destinations.map(destination => 
+                        destination._id === destinationId ? { ...destination, ...updatedDestination } : destination
+                    ));
+                    setDestinationEditModes({ ...destinationEditModes, [destinationId]: false });
+                    console.log('Destination updated successfully.');
+                } else {
+                    console.error('Failed to update destination.');
+                }
+            } catch (error) {
+                console.error('Update destination error:', error);
+            }
+        } else {
+            console.error('Updated destination details not found');
+        }
+    };
+    // -------------------------------------------------------------------------------------------
 
-
+    // ---------- delete destinations functionality  ---------------------------------------------
+    // use mutation to delete from db and then update state 
     const handleDeleteDestinationButton = async (destinationId) => {
         console.log('deleting destination with id:', destinationId);
 
@@ -183,76 +234,10 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
         } catch (error) {
             console.error('Delete destination error:', error);
         }
-
     }
+    // -------------------------------------------------------------------------------------------
 
-    // FOR REFERENCE:
-    // server-side resolvers.js:
-        // updateTrip: async (parent, { _id, city, start, end }, context) => {
-        //     if (context.user) {
-        //         const updatedTrip = await Trip.findByIdAndUpdate(
-        //             _id,
-        //             { city, start, end },
-        //             { new: true }
-        //         );
-        //         return updatedTrip;
-        //     }
-        //     throw AuthenticationError;
-        // },
-
-        // updateDestination: async (parent, { _id, location, when }, context) => {
-        //     if (context.user) {
-        //         const updatedDestination = await Destination.findByIdAndUpdate(
-        //             _id,
-        //             { location, start, end },
-        //             { new: true }
-        //         );
-        //         return updatedDestination;
-        //     }
-        //     throw AuthenticationError;
-        // },
-
-
-    // client-side mutations.js:
-
-
-    // server-side typeDefs.js:
-
-        // type Trip {
-        //     _id: ID!
-        //     city: String!
-        //     start: String!
-        //     end: String!
-        //     user: User
-        //     destinations: [Destination]
-        // }
-
-        // type Destination {
-        //     _id: ID!
-        //     location: String!
-        //     when: String
-        // }
-
-        // type Query {
-        //     users: [User]
-        //     user(username: String!): User
-        //     trips(username: String!): [Trip]
-        //     trip(_id: ID!): Trip
-        //     destinations(trip: String!): [Destination]
-        //     destination(_id: ID!): Destination
-        //     me: User
-        // }
-
-        // type Mutation {
-        //     newTrip(city: String!, start: String!, end: String!): Trip
-        //     updateTrip(_id: ID!, city: String, start: String, end: String): Trip
-        //     deleteTrip(_id: ID!): Trip
-
-        //     newDestination(tripId: ID!, location: String!, when: String): Destination
-        //     updateDestination(_id: ID!, location: String, when: String): Destination
-        //     deleteDestination(_id: ID!): Destination
-        // }
-
+    // ---------- rendered component  ------------------------------------------------------------
     return (
         <div className='trip-card'>
             <div className='trip-card-header'>
@@ -260,13 +245,12 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                 <div className='trip-details'>
                     <div className='left detail-values'>
                         {tripEditMode ? (
-                            <>
-                                {/* values will have to be changed!!!! */}
-                                <p><strong>Destination: </strong><input type="text" value={trip.city} /></p>
+                            <> 
+                                <p><strong>Destination: </strong><input type="text" value={editableCity} onChange={(e) => setEditableCity(e.target.value)} /></p>
                                 <p>
                                     <strong>Duration: </strong>
-                                    <input type="date" value={trip.start} />
-                                    <input type="date" value={trip.end} />
+                                    <input type="date" value={editableStart} onChange={(e) => setEditableStart(e.target.value)} />
+                                    <input type="date" value={editableEnd} onChange={(e) => setEditableEnd(e.target.value)} />
                                 </p>
                             </>
                         ) : (
@@ -285,18 +269,19 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                         </div>
                     )}
                     
-                    {/* clicking this button should send the new info to the db to update the trip and also turn off editing mode */}
                     {tripEditMode && (
                         <div className='icons'>
-                            <button onClick={handleSaveTripButton}><FaRegFloppyDisk /></button>
+                            <button onClick={handleSaveTripButton}><FaFloppyDisk /></button>
                         </div>
                     )}
                 </div>
             </div>  
 
             <div className='trip-destinations'>
+            {showButtons && (
                 <form className='destination-form' onSubmit={handleFormSubmit}>
                     <p>Enter a destination to add to your itinerary:</p>
+                    
                     <input 
                         type='text' 
                         id='location' 
@@ -312,38 +297,55 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                         onChange={(event) => setWhen(event.target.value)} />
                     <button type='submit'><FaPlus /></button>
                 </form>
+            )}
 
                 {/* EXTRA TODO: use locations to query map API and open the mapquest or google maps page */}
                 <div className='destination-list'>
                     <h2>Trip Destinations</h2>
+                    
+                    {destinations.length > 0 ? (
+                        destinations.map((destination) => (
+                            <div key={destination._id} className='single-destination'>
+                                {destinationEditModes[destination._id] 
+                                ? (
+                                    <>
+                                        <input 
+                                            type='text' 
+                                            value={editableDestinations[destination._id]?.location}
+                                            onChange={(event) => setEditableDestinationValue(destination._id, 'location', event.target.value)}
+                                        />
+                                        <input 
+                                            type='text' 
+                                            value={editableDestinations[destination._id]?.when}
+                                            onChange={(event) => setEditableDestinationValue(destination._id, 'when', event.target.value)}
+                                        />
 
-                    {destinations.map((destination) => (
-                        <div key={destination._id} className='single-destination'>
-                            {/* values will have to be changed!!!! */}
-                            {destinationEditModes[destination._id] 
-                            ? (
-                                <>
-                                    <input type='text' value={editableDestinations[destination._id]?.location} />
-                                    <input type='text' value={editableDestinations[destination._id]?.when} />
-                                    
-                                    <div className='icons'>
-                                        <button onClick={() => handleSaveDestinationButton(destination._id)}><FaRegFloppyDisk /></button>
-                                    </div>
-                                </>
-                            ) 
-                            : (
-                                <>
-                                    <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
-                                    <div className='icons'>
-                                        <button onClick={() => handleEditDestinationButton(destination._id)}><FaPen /></button>
-                                        <button onClick={() => handleDeleteDestinationButton(destination._id)}><FaTrash/></button>
-                                    </div>
-                                </>
-                            )}
-                            
-                        </div>
-                    ))}
+                                        
+                                        <div className='icons'>
+                                            <button onClick={() => handleSaveDestinationButton(destination._id)}><FaFloppyDisk /></button>
+                                        </div>
+                                    </>
+                                ) 
+                                : (
+                                    <>
+                                        <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
+                                        <div className='icons'>
+                                            <button onClick={() => handleEditDestinationButton(destination._id)}><FaPen /></button>
+                                            <button onClick={() => handleDeleteDestinationButton(destination._id)}><FaTrash/></button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        !hideMagnifyingGlass && (
+                            <div className='no-destinations-message'>
+                                <p>You have no destinations!</p>
+                                <p>Click the magnifying glass in the top left to add your first destination to this trip.</p>
 
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
             
