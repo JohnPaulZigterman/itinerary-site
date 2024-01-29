@@ -22,7 +22,7 @@ export default function SingleUser() {
 
     return (
         <div>
-            <div className='single-trip'>
+            <div className='single-user'>
 
                 {userData && (
                     <User 
