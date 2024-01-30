@@ -121,11 +121,9 @@ const resolvers = {
                 const user = await User.findById(_id).populate('trips');
                 for (let trip of user.trips) {
                     // delete all of the trip's destinations
-                    const populatedTrip = await Trip.findById(trip._id).populate('destinations');
-                    await Destination.deleteMany({ trip: populatedTrip._id });
-                    await Trip.findByIdAndDelete(populatedTrip._id);
+                    await Destination.deleteMany({ trip: trip._id });
+                    await Trip.findByIdAndDelete(trip._id);
                 }
-        
                 const deletedUser = await User.findByIdAndDelete(_id);
                 return deletedUser;
             }
@@ -201,20 +199,19 @@ const resolvers = {
         },
 
         deleteDestination: async (parent, { _id }, context) => {
-            if (context.user) {
-                const deletedDestination = await Destination.findByIdAndDelete(_id);
-                // remove the destination from the trip's destinations
-                await Trip.findByIdAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { destinations: _id } },
-                    { new: true }
-                );
-                
-                return deletedDestination;
-            }
-            throw AuthenticationError;
-        },
-
+    if (context.user) {
+        const deletedDestination = await Destination.findByIdAndDelete(_id);
+        // remove the destination from all trips' destinations
+        await Trip.updateMany(
+            { destinations: _id },
+            { $pull: { destinations: _id } },
+            { new: true }
+        );
+        
+        return deletedDestination;
+    }
+    throw AuthenticationError;
+},
         addFriend: async (parent, { friendId }, context) => {
             if (context.user) {
                 const updatedUser = await User.findByIdAndUpdate(
