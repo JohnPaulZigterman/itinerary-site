@@ -41,7 +41,6 @@ const handleUserClick = () => {
     return (
         <div className='public-page' onMouseOver={handleUserClick}>
             <div className='search-city'>
-                <h2>Title</h2>
                 <input
                     type="text"
                     placeholder="Search by city..."
