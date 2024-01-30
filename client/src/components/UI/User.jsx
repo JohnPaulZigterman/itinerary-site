@@ -6,6 +6,7 @@ import { ADD_FRIEND, DELETE_FRIEND } from '../../utils/mutations';
 import { QUERY_IS_FRIEND_WITH } from '../../utils/queries';
 import Auth from '../../utils/auth';
 import '../../styles/User.css'
+import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 
 export default function User({ username, trips, _id }) {
     const getProfile = Auth.getProfile();
@@ -68,16 +69,23 @@ export default function User({ username, trips, _id }) {
                     <button className='friend-button' onClick={handleRemoveFriendButton}>Remove Friend</button>
                     // if the user is not a friend, then the user can add friend
                 ) : (
-                    <button className='friend-button' onClick={handleAddFriendButton}>Add Friend</button>
+                    <button className='friend-button' onClick={handleAddFriendButton}><FaPlus /> Add Friend</button>
                 )}
             </div>
             <div className='all-users-trips'>
                 {trips.length > 0 ? (
                     trips.map((trip) => (
-                        <div className='trips-list'>
-                            <Link key={trip._id} to={`/trip/${trip._id}`}>
-                                <p>{trip.city}</p>
-                            </Link>
+                        <div className='trips-list' key={trip._id}>
+                            <div className='trip-city'>
+                                <p>Trip to <strong>{trip.city}</strong> starting {trip.start}.</p>
+                            </div>
+                            
+                            <div className='trip-link'>
+                                <Link to={`/trip/${trip._id}`}>
+                                    <FaMagnifyingGlass />
+                                </Link>
+                            </div>
+
                         </div>
                     ))
                 ) : (
