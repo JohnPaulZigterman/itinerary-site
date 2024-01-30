@@ -265,7 +265,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                     {/* this div holds icon that links to the single trip view, hide on SingleTrips page */}
                     {!hideMagnifyingGlass && (
                         <div className='right edit-delete'>
-                            <Link to={`/trip/${trip._id}`}><FaMagnifyingGlass /></Link>
+                            <Link to={`/trip/${trip._id}`}></Link>
                         </div>
                     )}
                     
@@ -330,8 +330,12 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                                     <>
                                         <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
                                         <div className='icons'>
+                                            {showButtons && (
+                                            <>
                                             <button onClick={() => handleEditDestinationButton(destination._id)}><FaPen /></button>
                                             <button onClick={() => handleDeleteDestinationButton(destination._id)}><FaTrash/></button>
+                                            </>
+                                            )}
                                         </div>
                                     </>
                                 )}

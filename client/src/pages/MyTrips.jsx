@@ -1,24 +1,10 @@
-// displays user's trip cards
-
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import Trip from '../components/UI/Trip';
-import { QUERY_USER , QUERY_TRIPS } from '../utils/queries';
+import { QUERY_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 
-
 export default function MyTrips() {
-    // get username
-    const loggedIn = Auth.loggedIn();
-
-    if (!loggedIn) {
-        return (
-            <div>
-                <h1>Please Log In To See Your Trips!</h1>
-            </div>
-        )
-    }
 
     const getProfile = Auth.getProfile();
     let username;
@@ -30,16 +16,14 @@ export default function MyTrips() {
         console.error('User profile data is not available');
     }
 
-    // fetch trip data through User query
-    const { loading, data } = useQuery(QUERY_USER, {
-        variables: { username },
-    });
+    // fetch trip data through ME query
+    const { loading, data } = useQuery(QUERY_ME);
 
     if (loading) {
         return <div>Loading...</div>;
     }
     
-    const user = data?.user;
+    const user = data?.me;
     const trips = user.trips || [];
 
     return (
@@ -49,6 +33,8 @@ export default function MyTrips() {
                     <Trip
                         key={trip._id}
                         trip={trip}
+                        showButtons={true}
+                        hideMagnifyingGlass={true}
                     />
                 ))}
             </div>
