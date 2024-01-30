@@ -62,7 +62,7 @@ header nav a {
 .logout-button {
   text-decoration: none;
   color: black;
-  background-color: var(--cream);
+  background-color: brown;
   margin: 2px 10px;
   padding: 10px;
   width: 120px;
@@ -81,6 +81,18 @@ header nav a.active{
   justify-content: center; 
 }
 
+
+
+nav > *:hover {
+  background-color: lightslategray;
+  color: white;
+}
+
+
+.logout-button:hover {
+    background-color: red;
+      color: white;
+  }
 
 /* Responsive adjustments */
 @media (max-width: 1295px) { 

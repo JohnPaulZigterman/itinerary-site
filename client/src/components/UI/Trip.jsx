@@ -125,8 +125,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
         setTripEditMode(false);
     }
     
-    // INCOMPLETE: doesn't delete associated destinations, 
-    // also need to refresh parent component to reflect deleted trip
     const handleDeleteTripButton = async (event) => {
         console.log('deleting trip with trip id:', trip._id);
 
@@ -154,7 +152,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
 
     // ---------- edit destinations functionality  -----------------------------------------------
     // updates editable values of a specific destination
-    // becca-comment: COMMENT FOLLOWING FUNCTION IN DEPTH, LINE BY LINE. 
     const setEditableDestinationValue = (destinationId, field, value) => {
         setEditableDestinations(prevEditableDestinations => ({
             ...prevEditableDestinations,
@@ -309,6 +306,7 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                                 {destinationEditModes[destination._id] 
                                 ? (
                                     <>
+                                    <div className='destination-details'>
                                         <input 
                                             type='text' 
                                             value={editableDestinations[destination._id]?.location}
@@ -319,16 +317,21 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                                             value={editableDestinations[destination._id]?.when}
                                             onChange={(event) => setEditableDestinationValue(destination._id, 'when', event.target.value)}
                                         />
+                                    </div>
 
-                                        
                                         <div className='icons'>
                                             <button onClick={() => handleSaveDestinationButton(destination._id)}><FaFloppyDisk /></button>
                                         </div>
+                                    
                                     </>
                                 ) 
                                 : (
                                     <>
-                                        <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
+                                        
+                                        <div className='destination-details'>
+                                            <p><strong>{destination.location}</strong></p>
+                                            <p  style={{ marginTop: '5px', fontSize: '.8em' }}>{destination.when ? <>{destination.when}</> : ''}</p>
+                                        </div>
                                         <div className='icons'>
                                             {showButtons && (
                                             <>
@@ -342,14 +345,12 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                             </div>
                         ))
                     ) : (
-                        !hideMagnifyingGlass && (
                             <div className='no-destinations-message'>
-                                <p>You have no destinations!</p>
-                                <p>Click the magnifying glass in the top left to add your first destination to this trip.</p>
-
+                                <p style={{ marginBottom: '0px' }}>You have no destinations!</p>
+                                <p>Use the form above to add your first destination.</p>
                             </div>
                         )
-                    )}
+                    }
                 </div>
             </div>
             

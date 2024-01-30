@@ -6,6 +6,7 @@ import { ADD_FRIEND, DELETE_FRIEND } from '../../utils/mutations';
 import { QUERY_IS_FRIEND_WITH } from '../../utils/queries';
 import Auth from '../../utils/auth';
 import '../../styles/User.css'
+import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 
 export default function User({ username, trips, _id }) {
     const getProfile = Auth.getProfile();
@@ -59,7 +60,7 @@ export default function User({ username, trips, _id }) {
     return (
         <div className='user-card'>
             <div className='user-card-header'>
-                <h3>{username}'s Profile</h3>
+                <h2>{username}'s Profile</h2>
                 {loading ? (
                     <p>Loading...</p>
                     // if the user is the same as the browserId, then the user can't add or remove friend
@@ -68,17 +69,31 @@ export default function User({ username, trips, _id }) {
                     <button className='friend-button' onClick={handleRemoveFriendButton}>Remove Friend</button>
                     // if the user is not a friend, then the user can add friend
                 ) : (
-                    <button className='friend-button' onClick={handleAddFriendButton}>Add Friend</button>
+                    <button className='friend-button' onClick={handleAddFriendButton}><FaPlus /> Add Friend</button>
                 )}
             </div>
             <div className='all-users-trips'>
-                {trips.map((trip) => (
-                    <div className='trips-list'>
-                        <Link key={trip._id} to={`/trip/${trip._id}`}>
-                            <p>{trip.city}</p>
-                        </Link>
+                {trips.length > 0 ? (
+                    trips.map((trip) => (
+                        <div className='trips-list' key={trip._id}>
+                            <div className='trip-city'>
+                                <p>Trip to <strong>{trip.city}</strong> starting {trip.start}.</p>
+                            </div>
+                            
+                            <div className='trip-link'>
+                                <Link to={`/trip/${trip._id}`}>
+                                    <FaMagnifyingGlass />
+                                </Link>
+                            </div>
+
+                        </div>
+                    ))
+                ) : (
+                    <div className='no-users-message'>
+                        <p>{username} currently has no trips.</p>
                     </div>
-                ))}
+                )}
+
             </div>
         </div>
     );

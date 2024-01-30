@@ -41,7 +41,6 @@ const handleUserClick = () => {
     return (
         <div className='public-page' onMouseOver={handleUserClick}>
             <div className='search-city'>
-                <h2>Title</h2>
                 <input
                     type="text"
                     placeholder="Search by city..."
@@ -74,7 +73,7 @@ const handleUserClick = () => {
                 {/*  return all friends and sort them in alphabetical order */}
                 {[...dataMe.me.friends].sort((a, b) => a.username.localeCompare(b.username)).map((friend) => (
                     // link to the friend page 
-                    <div className='user-thumbnail'>
+                    <div className='user-thumbnail' key={friend.username}>
                         <div className='user-thumbnail-header'>
                         <h2>{friend.username}</h2>
                         </div>
@@ -91,7 +90,7 @@ const handleUserClick = () => {
                 {/*  return all users and sort them in alphabetical order */}
                 {[...dataUsers.users].sort((a, b) => a.username.localeCompare(b.username)).map((user) => (
                     // link to the user page 
-                        <div className='user-thumbnail'>
+                        <div className='user-thumbnail' key={user.username}>
                             <div className='user-thumbnail-header'>
                             <h2>{user.username}</h2>
                             </div>
@@ -99,10 +98,9 @@ const handleUserClick = () => {
                             <button>See Profile</button>
                             </Link>
                         </div>
-                    
                 ))}
                 </div>
-        </div>
+            </div>
         </div>
     );
 }
