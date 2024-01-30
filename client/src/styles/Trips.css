@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 95vw;
     gap: 25px;
     margin: 25px 0;
     justify-content: center;
@@ -10,7 +9,7 @@
 
 .trip-card {
     background-color: var(--light-blue);
-    max-width: 500px;
+    width: 500px;
     border-radius: 10px;
 }
 
@@ -63,7 +62,7 @@
 
 .left input, .single-destination input {
     background-color: white;
-    padding: 10px 0 10px 5px ; 
+    padding: 10px; 
     border: 1px solid #ccc; 
     border-radius: 5px; 
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -155,16 +154,6 @@
     margin-right: 10px;
 }
 
-.destination-details p {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    margin: 0 15px;
-    text-align: left;
-}
-
 .icons {
     margin-left: 10px;
     margin-right: 10px;
@@ -208,6 +197,8 @@
 .no-destinations-message p {
     text-align: center;
 }
+
+
 
 
 /* SIZING: show two cards side by side on a desktop,

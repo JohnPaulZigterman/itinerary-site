@@ -15,6 +15,7 @@ const ProtectedRoute = ({ children }) => {
     // redirect to the login page if not logged in
     return <Navigate to='/login' />;
   }
+
   return children;
 };
 
@@ -28,11 +29,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute>
-            <MyTrips />
-          </ProtectedRoute>
-        )
+        element: <MyTrips />
       }, {
         path: '/plan',
         element: (
@@ -42,29 +39,17 @@ const router = createBrowserRouter([
         ),
       }, {
         path: '/browse',
-        element: (
-          <ProtectedRoute>
-            <Public />
-          </ProtectedRoute>
-        )
+        element: <Public />
       }, {
         path: '/login',
         element: <Login />
       }, {
         path: '/trip/:tripId', 
-        element: (
-          <ProtectedRoute>
-            <SingleTrip />
-          </ProtectedRoute>
-        )
+        element: <SingleTrip />
       },
       {
         path: '/user/:username', 
-        element: (
-          <ProtectedRoute>
-            <SingleUser />
-          </ProtectedRoute>
-        )
+        element: <SingleUser />
       },
     ],
   },
