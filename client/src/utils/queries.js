@@ -142,3 +142,9 @@ export const QUERY_DESTINATION = gql`
         }
     }
 `;
+
+export const QUERY_IS_FRIEND_WITH = gql`
+    query isFriendWith($userId: ID!, $friendId: ID!) {
+        isFriendWith(userId: $userId, friendId: $friendId)
+    }
+`;

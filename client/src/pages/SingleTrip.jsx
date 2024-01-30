@@ -14,10 +14,8 @@ export default function SingleTrip() {
     const { loading, data } = useQuery(QUERY_TRIP, {
         variables: { id: tripId },
     });
-    console.log(data) 
 
     const tripData = data?.trip;
-    console.log(tripData)
 
     if (loading) {
         

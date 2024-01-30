@@ -1,15 +1,39 @@
+.single-user {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 25px 0;
+    justify-content: center;
+}
+
 .user-card {
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--light-blue);
-    width: 250px;
+    width: 500px;
     border-radius: 10px;
     border: solid black 2px;
     margin: 5px;
 }
 
-.trip-card {
-    background-color: bisque;
-    width: 40%;
-    
+.trips-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 10px;
+    background-color: white;
+    width: 95%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.trips-list p {
+    margin-left: 10px;
+    text-decoration: none;
 }
 
 .user-card button {
@@ -17,15 +41,25 @@
 }
 
 .user-card-header {
-
     padding: 10px 0;
     background-color: var(--cream);
     border-radius: 10px 10px 0 0;
-    /* color: white;
+    color: white;
+}
 
-    font-size: 1.5em;
-    font-weight: bolder;
-    text-shadow: 2px 2px 2px var(--dark-blue); */
+.user-card button {
+    background-color: var(--gray);
+    margin: 15px 0 5px 0;
+    padding: 2.5px 10px; 
+
+    border-radius: 20px;
+
+    color: black;
+    font-family: Quicksand, system-ui, Arial, sans-serif;
+    font-size: 1em;
+    text-shadow: 1px 1px 1px var(--white);
+    letter-spacing: 2px;
+    cursor: pointer;
 }
 
 .user-card-header h2 {
@@ -45,16 +79,7 @@
     align-items: center;
     justify-content: space-between;
     
-
     margin: 0 20px;
     text-align: left;
 }
 
-.all-trips, .single-trip {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 25px;
-    margin: 25px 0;
-    justify-content: center;
-}

@@ -27,8 +27,9 @@ export default function Public() {
     if (errorTrips || errorUsers) return <p>Error :(</p>;
 
     return (
-        <div>
-            <div>
+        <div className='public-page'>
+            <div className='search-city'>
+                <h2>Title</h2>
                 <input
                     type="text"
                     placeholder="Search by city..."
@@ -55,15 +56,14 @@ export default function Public() {
                     </>
                 )}
             </div>
-            <div>
+            <div className='users-thumbnails'>
                 <h1 id='users-h1'>Users</h1>
                 <div className='user-box'>
                 {/*  return all users and sort them in alphabetical order */}
                 {[...dataUsers.users].sort((a, b) => a.username.localeCompare(b.username)).map((user) => (
                     // link to the user page 
-                    
-                        <div className='user-card'>
-                            <div className='user-card-header'>
+                        <div className='user-thumbnail'>
+                            <div className='user-thumbnail-header'>
                             <h2>{user.username}</h2>
                             </div>
                             <Link key={user.username} to={`/user/${user.username}`}>

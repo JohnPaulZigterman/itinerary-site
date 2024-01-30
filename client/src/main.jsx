@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
 import App from './App.jsx';
 import Login from './pages/Login.jsx';
@@ -8,6 +8,16 @@ import PlanTrip from './pages/PlanTrip.jsx';
 import Public from './pages/Public.jsx';
 import SingleTrip from './pages/SingleTrip.jsx';
 import SingleUser from './pages/SingleUser.jsx';
+
+import Auth from './utils/auth'; 
+const ProtectedRoute = ({ children }) => {
+  if (!Auth.loggedIn()) {
+    // redirect to the login page if not logged in
+    return <Navigate to='/login' />;
+  }
+
+  return children;
+};
 
 import './styles/index.css'
 
@@ -22,7 +32,11 @@ const router = createBrowserRouter([
         element: <MyTrips />
       }, {
         path: '/plan',
-        element: <PlanTrip />
+        element: (
+          <ProtectedRoute>
+            <PlanTrip />
+          </ProtectedRoute>
+        ),
       }, {
         path: '/browse',
         element: <Public />
