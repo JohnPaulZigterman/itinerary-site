@@ -59,7 +59,7 @@ export default function User({ username, trips, _id }) {
     return (
         <div className='user-card'>
             <div className='user-card-header'>
-                <h3>{username}'s Profile</h3>
+                <h2>{username}'s Profile</h2>
                 {loading ? (
                     <p>Loading...</p>
                     // if the user is the same as the browserId, then the user can't add or remove friend
@@ -72,13 +72,20 @@ export default function User({ username, trips, _id }) {
                 )}
             </div>
             <div className='all-users-trips'>
-                {trips.map((trip) => (
-                    <div className='trips-list'>
-                        <Link key={trip._id} to={`/trip/${trip._id}`}>
-                            <p>{trip.city}</p>
-                        </Link>
+                {trips.length > 0 ? (
+                    trips.map((trip) => (
+                        <div className='trips-list'>
+                            <Link key={trip._id} to={`/trip/${trip._id}`}>
+                                <p>{trip.city}</p>
+                            </Link>
+                        </div>
+                    ))
+                ) : (
+                    <div className='no-users-message'>
+                        <p>{username} currently has no trips.</p>
                     </div>
-                ))}
+                )}
+
             </div>
         </div>
     );
