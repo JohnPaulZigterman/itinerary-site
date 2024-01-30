@@ -29,7 +29,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MyTrips />
+        element:(
+          <ProtectedRoute>
+            <MyTrips />
+          </ProtectedRoute>
+        ),
       }, {
         path: '/plan',
         element: (
@@ -39,17 +43,29 @@ const router = createBrowserRouter([
         ),
       }, {
         path: '/browse',
-        element: <Public />
+        element:(
+          <ProtectedRoute>
+            <Public />
+          </ProtectedRoute>
+        ),
       }, {
         path: '/login',
         element: <Login />
       }, {
         path: '/trip/:tripId', 
-        element: <SingleTrip />
+        element: (
+          <ProtectedRoute>
+            <SingleTrip />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/user/:username', 
-        element: <SingleUser />
+        element: (
+          <ProtectedRoute>
+            <SingleUser />
+          </ProtectedRoute>
+        )
       },
     ],
   },
