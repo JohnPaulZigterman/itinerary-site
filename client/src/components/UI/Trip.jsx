@@ -10,7 +10,7 @@ import Auth from '../../utils/auth';
 import '../../styles/Trips.css';
 import pin from '../../assets/pin.png';
 // icon library: https://react-icons.github.io/react-icons/icons/fa6/
-import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaFloppyDisk } from 'react-icons/fa6';
+import { FaTrash, FaPlus, FaRegThumbsUp, FaRegThumbsDown, FaPen, FaMagnifyingGlass, FaFloppyDisk  } from 'react-icons/fa6';
 
 export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
     // ---------- State Variables ----------------------------------------------------------------
@@ -281,7 +281,6 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
             {showButtons && (
                 <form className='destination-form' onSubmit={handleFormSubmit}>
                     <p>Enter a destination to add to your itinerary:</p>
-                    
                     <input 
                         type='text' 
                         id='location' 
@@ -308,27 +307,34 @@ export default function Trip({ trip, showButtons, hideMagnifyingGlass }) {
                             <div key={destination._id} className='single-destination'>
                                 {destinationEditModes[destination._id] 
                                 ? (
-                                    <>
-                                        <input 
-                                            type='text' 
-                                            value={editableDestinations[destination._id]?.location}
-                                            onChange={(event) => setEditableDestinationValue(destination._id, 'location', event.target.value)}
-                                        />
-                                        <input 
-                                            type='text' 
-                                            value={editableDestinations[destination._id]?.when}
-                                            onChange={(event) => setEditableDestinationValue(destination._id, 'when', event.target.value)}
-                                        />
+                                    <>  <div className='destination-details'>
+                                                                              
+                                            <input 
+                                                type='text' 
+                                                value={editableDestinations[destination._id]?.location}
+                                                onChange={(event) => setEditableDestinationValue(destination._id, 'location', event.target.value)}
+                                            />
+                                            
+                                            <input 
+                                                type='text' 
+                                                value={editableDestinations[destination._id]?.when}
+                                                onChange={(event) => setEditableDestinationValue(destination._id, 'when', event.target.value)}
+                                            />
+                                        </div>  
+                                            
+                                            <div className='icons'>
+                                                <button onClick={() => handleSaveDestinationButton(destination._id)}><FaFloppyDisk /></button>
+                                            </div>
 
                                         
-                                        <div className='icons'>
-                                            <button onClick={() => handleSaveDestinationButton(destination._id)}><FaFloppyDisk /></button>
-                                        </div>
                                     </>
                                 ) 
                                 : (
                                     <>
-                                        <p>{destination.location}{destination.when ? ` @ ${destination.when}` : ''}</p>
+                                        <div className='destination-details'>
+                                            <p><strong>{destination.location}</strong></p>
+                                            <p  style={{ marginTop: '5px', fontSize: '.8em' }}>{destination.when ? <>{destination.when}</> : ''}</p>
+                                        </div>
                                         <div className='icons'>
                                             <button onClick={() => handleEditDestinationButton(destination._id)}><FaPen /></button>
                                             <button onClick={() => handleDeleteDestinationButton(destination._id)}><FaTrash/></button>
