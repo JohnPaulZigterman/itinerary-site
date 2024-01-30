@@ -10,7 +10,8 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
-    "render-build":"npm install && npm run build"
+    "render-build": "concurrently \"cd server && npm install && npm seed\" \"cd client && npm install && npm run build\"",
+    "render-start": "concurrently \"cd server && npm start\" \"cd client && npm start\""
   },
   "keywords": [],
   "author": "Ajhrabowski, hjlee17, JohnPaulZigterman, musaomark01",
