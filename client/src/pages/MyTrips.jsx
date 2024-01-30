@@ -33,7 +33,7 @@ export default function MyTrips() {
     const trips = user.trips || [];
 
     return (
-        <div>
+        <div className='my-trips'>
             <div className='all-trips'>
                 {trips.map((trip) => (
                     <Trip
