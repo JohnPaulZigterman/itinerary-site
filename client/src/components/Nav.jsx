@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import Auth from '../utils/auth';
-import '../styles/Nav.css';
 
 
 export default function Nav() {
