@@ -1,0 +1,14 @@
+nav > *:hover {
+  background-color: lightslategray;
+  color: white;
+}
+
+.logout-button {
+    background-color: brown;
+      color: black;
+  }
+
+.logout-button:hover {
+    background-color: red;
+      color: white;
+  }
