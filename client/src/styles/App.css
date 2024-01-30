@@ -2,7 +2,7 @@
     min-width: 100%;
     margin: 0;
     text-align: center;
-    background-color: var(--dark-blue)
+    background-color: var(--dark-blue);
 }
 
 .outlet-container {
