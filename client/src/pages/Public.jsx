@@ -29,7 +29,6 @@ export default function Public() {
     return (
         <div className='public-page'>
             <div className='search-city'>
-                <h2>Title</h2>
                 <input
                     type="text"
                     placeholder="Search by city..."
