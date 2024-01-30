@@ -72,20 +72,13 @@ export default function User({ username, trips, _id }) {
                 )}
             </div>
             <div className='all-users-trips'>
-                {trips.length > 0 ? (
-                    trips.map((trip) => (
+                {trips.map((trip) => (
                     <div className='trips-list'>
                         <Link key={trip._id} to={`/trip/${trip._id}`}>
                             <p>{trip.city}</p>
                         </Link>
                     </div>
-                    ))
-                ) : (
-                    <div className='no-users-message'>
-                        <p>{username} currently has no trips.</p>
-                    </div>
-                )}
-  
+                ))}
             </div>
         </div>
     );
